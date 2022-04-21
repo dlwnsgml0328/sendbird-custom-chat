@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -9,9 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
 
-import {
-  useHistory,
-} from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
       '&.Mui-focused fieldset': {
         borderColor: '#825deb',
       },
-    }
+    },
   },
   avatar: {
     marginTop: 20,
@@ -58,9 +56,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn({ onSubmit }) {
+export default function SignIn({ onSubmit, config }) {
   const classes = useStyles();
   const history = useHistory();
+
+  useEffect(() => {
+    console.log('config: ', config);
+  }, [config]);
+
   return (
     <Container component="main" maxWidth="xs" className={classes.main}>
       <CssBaseline />
@@ -75,14 +78,14 @@ export default function SignIn({ onSubmit }) {
         </Typography>
         <form
           className={classes.form}
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             onSubmit({
               userId: e.target.userId.value,
               nickname: e.target.nickname.value,
               theme: e.target.theme.checked ? 'dark' : 'light',
             });
-            history.push('/chat');;
+            history.push('/chat');
           }}
         >
           <TextField
@@ -95,6 +98,7 @@ export default function SignIn({ onSubmit }) {
             name="userId"
             className={classes.input}
             autoFocus
+            value={config.userId || ''}
           />
           <TextField
             variant="outlined"
@@ -105,9 +109,18 @@ export default function SignIn({ onSubmit }) {
             label="Nick Name"
             id="nickname"
             className={classes.input}
+            value={config.nickname || ''}
           />
           <FormControlLabel
-            control={<Checkbox value="dark" color="primary" name="theme" className={classes.checkbox} />}
+            control={
+              <Checkbox
+                value="dark"
+                color="primary"
+                name="theme"
+                className={classes.checkbox}
+                checked={config.theme === 'dark' || false}
+              />
+            }
             label="Apply dark theme"
           />
           <Button

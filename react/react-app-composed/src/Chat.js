@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import './Chat.css';
 
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import {
   SendBirdProvider,
   ChannelList,
@@ -21,7 +21,9 @@ export default function Chat({ userId, nickname, theme }) {
   const [showSettings, setShowSettings] = useState(false);
   const [currentChannelUrl, setCurrentChannelUrl] = useState(null);
   return (
-    <div style={{ height: '100vh' }}>
+    <div
+      style={{ position: 'absolute', bottom: 0, height: '50vh', width: '100%' }}
+    >
       <SendBirdProvider
         appId={process.env.APP_ID}
         theme={theme}
@@ -41,19 +43,26 @@ export default function Chat({ userId, nickname, theme }) {
           <div className="sendbird-app__conversation-wrap">
             <Channel
               channelUrl={currentChannelUrl}
-              onChatHeaderActionClick={() => { setShowSettings(true); }}
+              onChatHeaderActionClick={() => {
+                setShowSettings(true);
+              }}
             />
           </div>
         </div>
         {showSettings && (
-          <div className="sendbird-app__settingspanel-wrap">
+          <div
+            className="sendbird-app__settingspanel-wrap"
+            style={{ position: 'absolute', bottom: 0, height: '50vh' }}
+          >
             <ChannelSettings
               channelUrl={currentChannelUrl}
-              onCloseClick={() => { setShowSettings(false); }}
+              onCloseClick={() => {
+                setShowSettings(false);
+              }}
             />
           </div>
         )}
       </SendBirdProvider>
     </div>
-  )
+  );
 }
