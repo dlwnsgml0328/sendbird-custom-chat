@@ -1,19 +1,24 @@
 import React from 'react';
-import SendBirdProvider from '@sendbird/uikit-react/SendbirdProvider';
-import '@sendbird/uikit-react/dist/index.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import CustomizedApp from './CustomizedApp';
-import './styles.css';
+import Home from './pages/Home';
+import QuickStart from './pages/QuickStart';
 
-import { APP_ID, USER_ID, NICKNAME } from './const';
+import Header from './components/Header';
 
-export default function App() {
-  if (!APP_ID) {
-    return <p>Set APP_ID in const.js</p>;
-  }
+function App() {
   return (
-    <SendBirdProvider appId={APP_ID} userId={USER_ID} nickname={NICKNAME}>
-      <CustomizedApp />
-    </SendBirdProvider>
+    <BrowserRouter>
+      <Header />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+      <Routes>
+        <Route path="/quick_start" element={<QuickStart />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
+
+export default App;

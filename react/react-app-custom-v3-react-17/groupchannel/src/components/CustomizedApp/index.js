@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react';
 
-import SBConversation from '@sendbird/uikit-react/Channel';
-import SBChannelList from '@sendbird/uikit-react/ChannelList';
-import SBChannelSettings from '@sendbird/uikit-react/ChannelSettings';
+import Channel from '@sendbird/uikit-react/Channel';
+import ChannelList from '@sendbird/uikit-react/ChannelList';
+import ChannelSettings from '@sendbird/uikit-react/ChannelSettings';
 import withSendBird from '@sendbird/uikit-react/withSendBird';
 
 function CustomizedApp(props) {
+  props && console.log('🔥 props changed: ', props);
   // default props
   const {
     stores: { sdkStore, userStore },
@@ -72,7 +73,7 @@ function CustomizedApp(props) {
     <div className="customized-app">
       <div className="sendbird-app__wrap">
         <div className="sendbird-app__channellist-wrap">
-          <SBChannelList
+          <ChannelList
             onChannelSelect={(channel) => {
               if (channel && channel.url) {
                 setCurrentChannelUrl(channel.url);
@@ -81,7 +82,7 @@ function CustomizedApp(props) {
           />
         </div>
         <div className="sendbird-app__conversation-wrap">
-          <SBConversation
+          <Channel
             channelUrl={currentChannelUrl}
             onChatHeaderActionClick={() => {
               setShowSettings(true);
@@ -90,8 +91,11 @@ function CustomizedApp(props) {
         </div>
       </div>
       {showSettings && (
-        <div className="sendbird-app__settingspanel-wrap">
-          <SBChannelSettings
+        <div
+          className="sendbird-app__settingspanel-wrap"
+          style={{ position: 'absolute', top: '52px', right: 0 }}
+        >
+          <ChannelSettings
             channelUrl={currentChannelUrl}
             onCloseClick={() => {
               setShowSettings(false);
