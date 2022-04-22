@@ -1,13 +1,12 @@
-import { OpenChannel, SendBirdProvider } from "sendbird-uikit";
+import { OpenChannel, SendBirdProvider } from 'sendbird-uikit';
+import { configValue } from '../../config/env';
 
 // https://sendbird.com/docs/uikit/v1/react/guides/open-channel
 
 const Channel = () => {
-  const configValue: string = process.env.REACT_APP_APP_ID as string;
-
   return (
-    <SendBirdProvider appId={configValue} userId="junhee55" nickname="junhee55">
-      <div style={{ height: "90vh" }}>
+    <SendBirdProvider appId={configValue} userId="yessen" nickname="yessen">
+      <div style={{ height: '90vh' }}>
         <OpenChannel
           fetchingParticipants={false}
           useMessageGrouping={false} // To determine whether to use message grouping,
