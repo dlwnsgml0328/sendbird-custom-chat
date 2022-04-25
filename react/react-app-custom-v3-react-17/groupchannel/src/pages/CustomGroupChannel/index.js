@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Channel from '@sendbird/uikit-react/Channel';
 import ChannelList from '@sendbird/uikit-react/ChannelList';
 import MessageSearchPannel from '@sendbird/uikit-react/MessageSearch';
 import SendBirdProvider from '@sendbird/uikit-react/SendbirdProvider';
 
 import { APP_ID, NICKNAME, USER_ID } from '../QuickStart/const';
+import ChannelSettings from '@sendbird/uikit-react/ChannelSettings';
+
+import { CustomChannelHeaderContainer } from './stlye';
 
 const CustomGroupChannel = () => {
   const [selectedChannel, setSelectedChannel] = useState('');
   const [onSearch, setOnSearch] = useState(false);
-
-  useEffect(() => {
-    console.log('selectedChannel: ', selectedChannel);
-  }, [selectedChannel]);
+  const [onEdit, setOnEdit] = useState(false);
 
   const onChannelSelect = (res) => {
     if (res) {
@@ -36,6 +36,12 @@ const CustomGroupChannel = () => {
           </div>
           <div className="channel_wrap" style={{ width: '74%' }}>
             <Channel
+              renderChannelHeader={() => (
+                <CustomChannelHeader
+                  setOnSearch={setOnSearch}
+                  setOnEdit={setOnEdit}
+                />
+              )}
               channelUrl={selectedChannel || ''}
               showSearchIcon={true}
               onSearchClick={() => setOnSearch(true)}
@@ -50,11 +56,31 @@ const CustomGroupChannel = () => {
               />
             </div>
           )}
+          {onEdit && (
+            <div className="edit_wrap">
+              <ChannelSettings
+                channelUrl={selectedChannel || ''}
+                onCloseClick={() => setOnEdit(false)}
+              />
+            </div>
+          )}
         </SendBirdProvider>
       </div>
     </div>
   );
 };
+
+// custom renderChannelHeader
+const CustomChannelHeader = ({ setOnSearch, setOnEdit }) => (
+  <CustomChannelHeaderContainer>
+    <button type="button" onClick={() => setOnSearch(true)}>
+      search
+    </button>
+    <button type="button" onClick={() => setOnEdit(true)}>
+      Edit
+    </button>
+  </CustomChannelHeaderContainer>
+);
 
 export default CustomGroupChannel;
 

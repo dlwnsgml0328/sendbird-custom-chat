@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 
-import ChannelSettings from '@sendbird/uikit-react/ChannelSettings';
+import EditUserProfile from '@sendbird/uikit-react/EditUserProfile';
 import SendbirdProvider from '@sendbird/uikit-react/SendbirdProvider';
 
 import { APP_ID, NICKNAME, USER_ID } from '../QuickStart/const';
 
-const CustomSettingChannel = () => {
+const CustomEditProfile = () => {
   const [onSetting, setOnSetting] = useState(false);
 
   return (
     <div>
-      <h1>CustomSettingChannel</h1>
+      <h1>CustomEditProfile</h1>
       <SendbirdProvider appId={APP_ID} userId={USER_ID} nickname={NICKNAME}>
         <div className="setting_channel_wrap">
           <button type="button" onClick={() => setOnSetting(true)}>
-            setting_channel
+            edits_profile
           </button>
 
           {onSetting && (
             <div>
-              <ChannelSettings
+              <EditUserProfile
                 channelUrl={
                   'sendbird_group_channel_71230636_1df4a19deba53fd770774205b7b9db1673edb8ad'
                 }
@@ -33,4 +33,4 @@ const CustomSettingChannel = () => {
   );
 };
 
-export default CustomSettingChannel;
+export default CustomEditProfile;

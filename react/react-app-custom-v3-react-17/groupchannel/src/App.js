@@ -10,7 +10,7 @@ import CustomChannelList2 from './pages/CustomChannelList2';
 import Header from './components/Header';
 import CustomGroupChannel from './pages/CustomGroupChannel';
 import CustomSettingChannel from './pages/CustomSettingChannel';
-import CustomEditProfile from './pages/CustomSettingChannel';
+import CustomEditProfile from './pages/CustomEditProfile';
 
 function App() {
   return (
