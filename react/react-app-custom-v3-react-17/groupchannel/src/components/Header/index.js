@@ -26,6 +26,10 @@ const Header = () => {
       <li>
         <Link to="/setting_channel">setting channel</Link>
       </li>
+
+      <li>
+        <Link to="/edit_profile">edit profile</Link>
+      </li>
     </HeaderWrap>
   );
 };

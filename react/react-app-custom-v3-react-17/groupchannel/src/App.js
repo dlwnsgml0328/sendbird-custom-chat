@@ -10,6 +10,7 @@ import CustomChannelList2 from './pages/CustomChannelList2';
 import Header from './components/Header';
 import CustomGroupChannel from './pages/CustomGroupChannel';
 import CustomSettingChannel from './pages/CustomSettingChannel';
+import CustomEditProfile from './pages/CustomSettingChannel';
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/setting_channel" element={<CustomSettingChannel />} />
+      </Routes>
+      <Routes>
+        <Route path="/edit_profile" element={<CustomEditProfile />} />
       </Routes>
     </BrowserRouter>
   );
