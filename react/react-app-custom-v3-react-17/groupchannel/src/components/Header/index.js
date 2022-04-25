@@ -20,6 +20,12 @@ const Header = () => {
       <li>
         <Link to="/channel_list_2">channel list2</Link>
       </li>
+      <li>
+        <Link to="/group_channel">group channel</Link>
+      </li>
+      <li>
+        <Link to="/setting_channel">setting channel</Link>
+      </li>
     </HeaderWrap>
   );
 };
