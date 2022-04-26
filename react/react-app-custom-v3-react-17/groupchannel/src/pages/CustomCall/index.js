@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import SendBirdCall from 'sendbird-calls';
 import { APP_ID, NICKNAME, USER_ID } from '../../config/const';
 
@@ -8,14 +8,16 @@ const CustomCall = () => {
   const [room, setRoom] = useState();
 
   const authOption = { userId: USER_ID, accessToken: NICKNAME };
-  const roomParams = { roomType: SendBirdCall.RoomType.SMALL_ROOM_FOR_VIDEO };
+  const roomParams = {
+    roomType: SendBirdCall.RoomType.LARGE_ROOM_FOR_AUDIO_ONLY,
+  };
 
-  useEffect(() => {
+  const connectCall = useCallback(() => {
     if (authOption && roomParams && !done) {
       SendBirdCall.init(APP_ID);
       setDone(true);
 
-      //   유저 정보 확인
+      // 유저 정보 확인
       SendBirdCall.authenticate(authOption, (result, error) => {
         if (error) {
           console.log('error authenticating');
@@ -23,7 +25,7 @@ const CustomCall = () => {
           console.log('success authenticating');
         }
       })
-        //   웹 소켓 연결
+        // 웹 소켓 연결
         .then(() => {
           SendBirdCall.connectWebSocket()
             .then(() => {
@@ -57,6 +59,20 @@ const CustomCall = () => {
     }
   }, [authOption, roomParams, done]);
 
+  const disconnectCall = useCallback(() => {
+    if (roomState) {
+      SendBirdCall.fetchRoomById(room.roomId)
+        .then((room) => {
+          room.exit();
+          setRoomState(false);
+        })
+        .catch((e) => console.log('Failed to disconnect', e));
+    } else {
+      console.log('check the roomState');
+      return;
+    }
+  }, [roomState, room]);
+
   useEffect(() => {
     if (roomState) {
       console.log('room', room);
@@ -64,9 +80,10 @@ const CustomCall = () => {
       SendBirdCall.fetchRoomById(room.roomId)
         .then((room) => {
           console.log('fetch room success', room);
+
+          // enter 메서드를 사용하기 위해 꼭 필요한 부분
           const enterParams = {
-            videoEnabled: false,
-            audioEnabled: false,
+            audioEnabled: true,
           };
 
           room
@@ -87,6 +104,28 @@ const CustomCall = () => {
   return (
     <div>
       <h1>Custom Call</h1>
+
+      <div>
+        <button type="button" onClick={connectCall}>
+          connect call
+        </button>
+
+        <button type="button" onClick={disconnectCall}>
+          disconnect call
+        </button>
+      </div>
+
+      <div style={{ marginTop: '1%' }}>
+        {roomState ? (
+          <span role="img" aria-label="connect" style={{ fontSize: '3rem' }}>
+            🎧
+          </span>
+        ) : (
+          <span role="img" aria-label="disconnect" style={{ fontSize: '3rem' }}>
+            ❌
+          </span>
+        )}
+      </div>
     </div>
   );
 };
