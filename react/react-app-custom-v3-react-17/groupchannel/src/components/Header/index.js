@@ -24,6 +24,9 @@ const Header = () => {
         <Link to="/group_channel">group channel</Link>
       </li>
       <li>
+        <Link to="/open_channel">open channel</Link>
+      </li>
+      <li>
         <Link to="/setting_channel">setting channel</Link>
       </li>
 

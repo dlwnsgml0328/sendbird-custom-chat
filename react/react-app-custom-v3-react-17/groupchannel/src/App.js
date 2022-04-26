@@ -11,6 +11,7 @@ import Header from './components/Header';
 import CustomGroupChannel from './pages/CustomGroupChannel';
 import CustomSettingChannel from './pages/CustomSettingChannel';
 import CustomEditProfile from './pages/CustomEditProfile';
+import CustomOpenChannel from './pages/CustomOpenChannel';
 
 function App() {
   return (
@@ -34,6 +35,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/group_channel" element={<CustomGroupChannel />} />
+      </Routes>
+      <Routes>
+        <Route path="/open_channel" element={<CustomOpenChannel />} />
       </Routes>
       <Routes>
         <Route path="/setting_channel" element={<CustomSettingChannel />} />
