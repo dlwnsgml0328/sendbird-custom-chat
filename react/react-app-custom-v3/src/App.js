@@ -6,6 +6,7 @@ import QuickStart from './pages/QuickStart';
 import Header from './components/Header';
 
 import './App.css';
+import DateLocalization from './pages/DateLocalization';
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/quickStart" element={<QuickStart />} />
+      </Routes>
+      <Routes>
+        <Route path="/dateLocale" element={<DateLocalization />} />
       </Routes>
     </BrowserRouter>
   );

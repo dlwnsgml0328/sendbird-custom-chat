@@ -65,6 +65,7 @@ export default function SignIn({ onSubmit, config }) {
   }, [config]);
 
   return (
+    // material ui custom container
     <Container component="main" maxWidth="xs" className={classes.main}>
       <CssBaseline />
       <div className={classes.paper}>
@@ -134,9 +135,6 @@ export default function SignIn({ onSubmit, config }) {
           </Button>
         </form>
       </div>
-      <Typography variant="body1">
-        Start chatting on Sendbird by choosing your username and nickname.
-      </Typography>
     </Container>
   );
 }

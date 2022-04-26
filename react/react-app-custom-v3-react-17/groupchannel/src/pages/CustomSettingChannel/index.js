@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import ChannelSettings from '@sendbird/uikit-react/ChannelSettings';
 import SendbirdProvider from '@sendbird/uikit-react/SendbirdProvider';
 
-import { APP_ID, NICKNAME, USER_ID } from '../QuickStart/const';
+import { APP_ID, NICKNAME, USER_ID } from '../../config/const';
 
 const CustomSettingChannel = () => {
   const [onSetting, setOnSetting] = useState(false);

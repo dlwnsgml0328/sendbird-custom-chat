@@ -4,7 +4,7 @@ import ChannelList from '@sendbird/uikit-react/ChannelList';
 import MessageSearchPannel from '@sendbird/uikit-react/MessageSearch';
 import SendBirdProvider from '@sendbird/uikit-react/SendbirdProvider';
 
-import { APP_ID, NICKNAME, USER_ID } from '../QuickStart/const';
+import { APP_ID, NICKNAME, USER_ID } from '../../config/const';
 import ChannelSettings from '@sendbird/uikit-react/ChannelSettings';
 
 import { CustomChannelHeaderContainer } from './stlye';

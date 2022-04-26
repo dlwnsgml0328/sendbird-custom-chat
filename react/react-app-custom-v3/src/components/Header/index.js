@@ -10,6 +10,9 @@ const Header = () => {
       <li>
         <Link to="/quickStart">quick start</Link>
       </li>
+      <li>
+        <Link to="/dateLocale">date locale</Link>
+      </li>
     </HeaderWrap>
   );
 };

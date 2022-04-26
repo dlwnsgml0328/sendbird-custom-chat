@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import EditUserProfile from '@sendbird/uikit-react/EditUserProfile';
 import SendbirdProvider from '@sendbird/uikit-react/SendbirdProvider';
 
-import { APP_ID, NICKNAME, USER_ID } from '../QuickStart/const';
+import { APP_ID, NICKNAME, USER_ID } from '../../config/const';
 
 const CustomEditProfile = () => {
   const [onSetting, setOnSetting] = useState(false);

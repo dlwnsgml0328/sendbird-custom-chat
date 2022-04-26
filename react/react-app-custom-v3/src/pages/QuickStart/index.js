@@ -1,17 +1,19 @@
-import App from '@sendbird/uikit-react/App';
+import React from 'react';
+import SendBirdProvider from '@sendbird/uikit-react/SendbirdProvider';
 import '@sendbird/uikit-react/dist/index.css';
 
-const QuickStart = () => {
-  return (
-    <div className="App">
-      <App
-        appId="ABD4B8EB-4479-4478-9C51-D41B009C6780"
-        userId="yessen"
-        nickname="yessen"
-        theme="light"
-      />
-    </div>
-  );
-};
+import CustomizedApp from './CustomizedApp';
+import './styles.css';
 
-export default QuickStart;
+import { APP_ID, USER_ID, NICKNAME } from './const';
+
+export default function QuickStart() {
+  if (!APP_ID) {
+    return <p>Set APP_ID in const.js</p>;
+  }
+  return (
+    <SendBirdProvider appId={APP_ID} userId={USER_ID} nickname={NICKNAME}>
+      <CustomizedApp />
+    </SendBirdProvider>
+  );
+}

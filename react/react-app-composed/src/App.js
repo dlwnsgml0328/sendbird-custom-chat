@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './Login';
 import Chat from './Chat';
 
+// react-app-composed
+
 function App() {
   const [config, setconfig] = useState({
     userId: 'junhee',

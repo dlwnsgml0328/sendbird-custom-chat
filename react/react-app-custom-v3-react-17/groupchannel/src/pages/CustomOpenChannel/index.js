@@ -4,7 +4,7 @@ import SendbirdProvider from '@sendbird/uikit-react/SendbirdProvider';
 import OpenChannel from '@sendbird/uikit-react/OpenChannel';
 import OpenChannelSettings from '@sendbird/uikit-react/OpenChannelSettings';
 
-import { APP_ID, NICKNAME, USER_ID } from '../QuickStart/const';
+import { APP_ID, NICKNAME, USER_ID } from '../../config/const';
 
 const CustomOpenChannel = () => {
   const [onEdit, setOnEdit] = useState(false);

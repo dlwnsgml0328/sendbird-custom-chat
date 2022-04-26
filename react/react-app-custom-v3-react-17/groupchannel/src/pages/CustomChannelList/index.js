@@ -3,7 +3,7 @@ import React from 'react';
 import ChannelList from '@sendbird/uikit-react/ChannelList';
 import SendBirdProvider from '@sendbird/uikit-react/SendbirdProvider';
 
-import { APP_ID, NICKNAME, USER_ID } from '../QuickStart/const';
+import { APP_ID, NICKNAME, USER_ID } from '../../config/const';
 
 const CustomChannelList = () => (
   <div>

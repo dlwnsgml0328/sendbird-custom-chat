@@ -3,7 +3,7 @@ import React from 'react';
 import SendbirdProvider from '@sendbird/uikit-react/SendbirdProvider';
 import CreateChannel from '@sendbird/uikit-react/CreateChannel';
 
-import { APP_ID, NICKNAME, USER_ID } from '../QuickStart/const';
+import { APP_ID, NICKNAME, USER_ID } from '../../config/const';
 import { useState } from 'react';
 
 const CustomCreateChannel = () => {

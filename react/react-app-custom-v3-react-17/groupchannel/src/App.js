@@ -6,12 +6,13 @@ import QuickStart from './pages/QuickStart';
 import CustomCreateChannel from './pages/CustomCreateChannel';
 import CustomChannelList from './pages/CustomChannelList';
 import CustomChannelList2 from './pages/CustomChannelList2';
-
-import Header from './components/Header';
 import CustomGroupChannel from './pages/CustomGroupChannel';
 import CustomSettingChannel from './pages/CustomSettingChannel';
 import CustomEditProfile from './pages/CustomEditProfile';
 import CustomOpenChannel from './pages/CustomOpenChannel';
+import CustomCall from './pages/CustomCall';
+
+import Header from './components/Header';
 
 function App() {
   return (
@@ -44,6 +45,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/edit_profile" element={<CustomEditProfile />} />
+      </Routes>
+      <Routes>
+        <Route path="/call" element={<CustomCall />} />
       </Routes>
     </BrowserRouter>
   );
