@@ -170,9 +170,10 @@ const CustomDirectCall = () => {
             style={{
               border: '1px solid black',
               padding: '1%',
-              width: '30%',
               margin: '0 auto',
               textAlign: 'center',
+              width: '60%',
+              maxWidth: '300px',
             }}
           >
             <div>

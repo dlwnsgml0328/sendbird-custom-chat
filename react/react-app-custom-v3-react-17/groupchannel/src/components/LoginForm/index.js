@@ -66,7 +66,8 @@ export default LoginForm;
 const CustomForm = styled.form`
   padding: 1%;
   border: 1px solid black;
-  width: 30%;
+  width: 60%;
+  max-width: 300px;
   margin: 0 auto;
 
   div {
