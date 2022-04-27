@@ -33,7 +33,10 @@ const Header = () => {
         <Link to="/edit_profile">edit profile</Link>
       </li>
       <li>
-        <Link to="/call">call</Link>
+        <Link to="/group_call">group call</Link>
+      </li>
+      <li>
+        <Link to="/direct_call">direct call</Link>
       </li>
     </HeaderWrap>
   );

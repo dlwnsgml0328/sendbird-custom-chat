@@ -1,11 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import SendBirdCall from 'sendbird-calls';
+
 import { APP_ID, NICKNAME, USER_ID } from '../../config/const';
 
 const CustomCall = () => {
   const [done, setDone] = useState(false);
   const [roomState, setRoomState] = useState(false);
   const [room, setRoom] = useState();
+
+  // for callee
+  const [channel, setChannel] = useState('aacced-as10dc-03dce1b');
 
   const authOption = { userId: USER_ID, accessToken: NICKNAME };
   const roomParams = {
@@ -65,6 +69,9 @@ const CustomCall = () => {
         .then((room) => {
           room.exit();
           setRoomState(false);
+          setDone(false);
+
+          console.log('disconnect done 🔥');
         })
         .catch((e) => console.log('Failed to disconnect', e));
     } else {
@@ -104,27 +111,47 @@ const CustomCall = () => {
   return (
     <div>
       <h1>Custom Call</h1>
-
-      <div>
-        <button type="button" onClick={connectCall}>
-          connect call
-        </button>
-
-        <button type="button" onClick={disconnectCall}>
-          disconnect call
-        </button>
-      </div>
-
-      <div style={{ marginTop: '1%' }}>
-        {roomState ? (
-          <span role="img" aria-label="connect" style={{ fontSize: '3rem' }}>
-            🎧
+      <div
+        style={{
+          margin: '0 auto',
+          width: '100%',
+          textAlign: 'center',
+          marginTop: '5%',
+        }}
+      >
+        <div>
+          <div>
+            <span style={{ marginRight: '1%' }}>connect channel :</span>
+            <input
+              style={{ width: '25%', padding: '0.5%' }}
+              type="text"
+              value={channel}
+              placeholder="connect channel that you know"
+              onChange={(e) => setChannel(e.target.value)}
+            />
+          </div>
+          <div style={{ marginTop: '1%' }}>
+            <button
+              type="button"
+              onClick={connectCall}
+              style={{ marginRight: '1%' }}
+            >
+              connect call
+            </button>
+            <button type="button" onClick={disconnectCall}>
+              disconnect call
+            </button>
+          </div>
+        </div>
+        <div style={{ marginTop: '1%' }}>
+          <span
+            role="img"
+            aria-label={roomState ? 'connect' : 'disconnect'}
+            style={{ fontSize: '3rem' }}
+          >
+            {roomState ? '🎧' : '❌'}
           </span>
-        ) : (
-          <span role="img" aria-label="disconnect" style={{ fontSize: '3rem' }}>
-            ❌
-          </span>
-        )}
+        </div>
       </div>
     </div>
   );

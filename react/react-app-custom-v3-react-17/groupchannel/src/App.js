@@ -11,6 +11,7 @@ import CustomSettingChannel from './pages/CustomSettingChannel';
 import CustomEditProfile from './pages/CustomEditProfile';
 import CustomOpenChannel from './pages/CustomOpenChannel';
 import CustomCall from './pages/CustomCall';
+import CustomDirectCall from './pages/CustomDirectCall';
 
 import Header from './components/Header';
 
@@ -47,7 +48,10 @@ function App() {
         <Route path="/edit_profile" element={<CustomEditProfile />} />
       </Routes>
       <Routes>
-        <Route path="/call" element={<CustomCall />} />
+        <Route path="/group_call" element={<CustomCall />} />
+      </Routes>
+      <Routes>
+        <Route path="/direct_call" element={<CustomDirectCall />} />
       </Routes>
     </BrowserRouter>
   );
