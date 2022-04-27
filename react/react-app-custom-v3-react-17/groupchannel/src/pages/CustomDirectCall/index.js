@@ -7,10 +7,12 @@ const CustomDirectCall = () => {
   const [caller, setCaller] = useState('');
   const [callee, setCallee] = useState('');
 
+  const [localCallee, setLocalCallee] = useState('');
+
   const [loginDone, setLoginDone] = useState(false);
   const [isCall, setIsCall] = useState(false);
 
-  // Todo: login 눌렀을 때 인가를 먼저 받는 식으로 작업해야 할 듯 지금 구조 상으로는 웹소켓 연결 이후 call 기능에서 문제가 생긴다
+  // Todo: callee: 전화받는 사람의 입장에서의 로직 흐름 제어가 원활하지 않다
 
   // 전화 걸기
   const call = useCallback(() => {
@@ -26,38 +28,44 @@ const CustomDirectCall = () => {
         },
       };
 
-      const call = SendBirdCall.dial(dialParams, (call, error) => {
+      SendBirdCall.dial(dialParams, (call, error) => {
         if (error) {
           console.log('error occured in call', error);
-        } else {
-          console.log('success call process', call);
-          setIsCall(true);
+          return;
         }
+
+        console.log('success call process', call);
+        setIsCall(true);
+
+        // const time = setInterval(() => {
+        //   console.log(Math.floor(Number(call.getDuration() / 1000)) + '초');
+        // }, [1000]);
+
+        call.onEstablished = (call) => {
+          console.log('caller onEstablished', call);
+        };
+
+        call.onConnected = (call) => {
+          console.log('caller onConnected', call);
+        };
+
+        call.onEnded = (call) => {
+          console.log('caller onEnded', call);
+          // clearInterval(time);
+        };
+
+        call.onRemoteAudioSettingsChanged = (call) => {
+          console.log('caller onRemoteAudioSettingsChanged', call);
+        };
+
+        call.onRemoteVideoSettingsChanged = (call) => {
+          console.log('caller onRemoteVideoSettingsChanged', call);
+        };
       });
-
-      call.onEstablished = (call) => {
-        console.log('caller onEstablished', call);
-      };
-
-      call.onConnected = (call) => {
-        console.log('caller onConnected', call);
-      };
-
-      call.onEnded = (call) => {
-        console.log('caller onEnded', call);
-      };
-
-      call.onRemoteAudioSettingsChanged = (call) => {
-        console.log('caller onRemoteAudioSettingsChanged', call);
-      };
-
-      call.onRemoteVideoSettingsChanged = (call) => {
-        console.log('caller onRemoteVideoSettingsChanged', call);
-      };
     }
   }, [callee]);
 
-  // 전화 받기
+  // 전화 끊기
   const end = useCallback(() => {
     if (callee) {
       const dialParams = {
@@ -84,17 +92,24 @@ const CustomDirectCall = () => {
     }
   }, [callee]);
 
-  const acceptCall = (call) => {
+  // 전화 받기
+  const acceptCall = useCallback((call) => {
+    // const time = setInterval(() => {
+    //   console.log(Math.floor(Number(call.getDuration() / 1000)) + '초');
+    // }, [1000]);
+
     call.onEstablished = (call) => {
       console.log('callee onEstablished', call);
     };
 
     call.onConnected = (call) => {
       console.log('callee onConnected', call);
+      setLocalCallee(call._caller.nickname);
     };
 
     call.onEnded = (call) => {
       console.log('callee onEnded', call);
+      // clearInterval(time);
     };
 
     call.onRemoteAudioSettingsChanged = (call) => {
@@ -115,14 +130,24 @@ const CustomDirectCall = () => {
     };
 
     call.accept(acceptParams);
-  };
+  }, []);
 
   useEffect(() => {
     if (loginDone) {
       SendBirdCall.addListener(callee, {
         onRinging: (call) => {
+          console.log('@ onRinging call: ', call);
           acceptCall(call);
         },
+        // onAudioInputDeviceChanged: (call) => {
+        //   console.log('@ onAudioInputDeviceChanged call: ', call);
+        // },
+        // onAudioOutputDeviceChanged: (call) => {
+        //   console.log('@ onAudioOutputDeviceChanged call: ', call);
+        // },
+        // onVideoInputDeviceChanged: (call) => {
+        //   console.log('@ onVideoInputDeviceChanged call: ', call);
+        // },
       });
 
       return () => {
@@ -133,7 +158,7 @@ const CustomDirectCall = () => {
         });
       };
     }
-  }, [loginDone, callee]);
+  }, [loginDone, callee, acceptCall]);
 
   return (
     <div>
@@ -188,7 +213,7 @@ const CustomDirectCall = () => {
                 flexDirection: 'column',
               }}
             >
-              <span>caller: {caller}</span>
+              <span>본인: {caller}</span>
               <video
                 id="local_video_element_id"
                 autoPlay
@@ -204,7 +229,7 @@ const CustomDirectCall = () => {
                 flexDirection: 'column',
               }}
             >
-              <span>callee: {callee}</span>
+              <span>상대방: {callee || localCallee}</span>
               <video
                 id="remote_video_element_id"
                 autoPlay

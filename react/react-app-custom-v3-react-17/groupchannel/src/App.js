@@ -14,6 +14,7 @@ import CustomCall from './pages/CustomCall';
 import CustomDirectCall from './pages/CustomDirectCall';
 
 import Header from './components/Header';
+import CustomChatWithCall from './pages/CustomChatWithCall';
 
 function App() {
   return (
@@ -52,6 +53,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/direct_call" element={<CustomDirectCall />} />
+      </Routes>
+      <Routes>
+        <Route path="/custom_chat_call" element={<CustomChatWithCall />} />
       </Routes>
     </BrowserRouter>
   );

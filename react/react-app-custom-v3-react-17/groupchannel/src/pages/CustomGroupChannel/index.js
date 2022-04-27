@@ -27,14 +27,14 @@ const CustomGroupChannel = () => {
       <h1>Custom Group Channel</h1>
       <div style={{ display: 'flex', height: '88vh' }}>
         <SendBirdProvider appId={APP_ID} userId={USER_ID} nickname={NICKNAME}>
-          <div className="channel_list_wrap" style={{ width: '26%' }}>
+          <div className="channel_list_wrap" style={{ flex: 1 }}>
             <ChannelList
               onChannelSelect={onChannelSelect}
               allowProfileEdit={true}
               onProfileEditSuccess={(res) => console.log('res: ', res)}
             />
           </div>
-          <div className="channel_wrap" style={{ width: '74%' }}>
+          <div className="channel_wrap" style={{ flex: 3 }}>
             <Channel
               renderChannelHeader={() => (
                 <CustomChannelHeader

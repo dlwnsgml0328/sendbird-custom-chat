@@ -38,6 +38,9 @@ const Header = () => {
       <li>
         <Link to="/direct_call">direct call</Link>
       </li>
+      <li>
+        <Link to="/custom_chat_call">custom chat call</Link>
+      </li>
     </HeaderWrap>
   );
 };

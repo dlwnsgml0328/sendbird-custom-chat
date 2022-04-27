@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const HeaderWrap = styled.ul`
   padding-left: 0;
@@ -13,5 +13,13 @@ export const HeaderWrap = styled.ul`
   a {
     text-decoration: none;
     color: #000;
+
+    :hover {
+      font-weight: bold;
+    }
+  }
+
+  @media screen and (max-width: 1500px) {
+    font-size: 1.4vw;
   }
 `;
