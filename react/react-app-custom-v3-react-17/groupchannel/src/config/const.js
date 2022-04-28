@@ -1,6 +1,6 @@
-export const APP_ID = 'ABD4B8EB-4479-4478-9C51-D41B009C6780';
-export const USER_ID = 'junhee';
-export const NICKNAME = 'junhee';
+export const APP_ID = 'B1610025-E076-48DC-8F63-E6E21D0326D6';
+export const USER_ID = 'new';
+export const NICKNAME = 'new';
 
 export default {
   APP_ID,

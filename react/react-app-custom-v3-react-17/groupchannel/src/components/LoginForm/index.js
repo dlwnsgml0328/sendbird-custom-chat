@@ -14,7 +14,7 @@ const LoginForm = ({
 
     SendBirdCall.authenticate({ userId: caller }, (result, error) => {
       if (error) {
-        console.log('error authenticating', error);
+        console.error('error authenticating', error);
       } else {
         console.log('success authenticating', result);
       }
