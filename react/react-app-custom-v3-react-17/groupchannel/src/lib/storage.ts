@@ -1,4 +1,4 @@
-import { isBrowser } from 'utils';
+import { isBrowser } from '../utils';
 
 export default (function () {
   try {
@@ -37,4 +37,4 @@ export default (function () {
       removeItem: (key: string) => '',
     };
   }
-}());
+})();
