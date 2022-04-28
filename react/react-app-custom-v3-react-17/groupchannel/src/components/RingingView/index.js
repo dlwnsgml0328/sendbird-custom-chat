@@ -27,6 +27,8 @@ const RingingView = ({ calleeCtx, setRinging, setIsCall }) => {
         console.log('callee onConnected', calleeCtx);
         setRinging(false);
         setIsCall(true);
+
+        calleeCtx.startVideo();
       };
 
       calleeCtx.onEnded = (calleeCtx) => {

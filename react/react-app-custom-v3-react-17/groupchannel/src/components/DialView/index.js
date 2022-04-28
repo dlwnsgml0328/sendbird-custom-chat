@@ -16,8 +16,8 @@ const DialView = ({
           userId: callee,
           isVideoCall: isVideoCall,
           callOption: {
-            localMediaView: document.getElementById('local_video_element_id'),
-            remoteMediaView: document.getElementById('remote_video_element_id'),
+            localMediaView: undefined,
+            remoteMediaView: undefined,
             audioEnabled: true,
             videoEnabled: true,
           },
@@ -39,6 +39,7 @@ const DialView = ({
 
           call.onConnected = (call) => {
             console.log('caller onConnected', call);
+            call.startVideo();
           };
 
           call.onReconnected = (call) => {

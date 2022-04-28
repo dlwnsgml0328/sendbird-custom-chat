@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import LoginForm from '../../components/LoginForm';
-
 import SendBirdCall from 'sendbird-calls';
+
+import LoginForm from '../../components/LoginForm';
 import DialView from '../../components/DialView';
 import CallView from '../../components/CallView';
 import RingingView from '../../components/RingingView';
@@ -52,6 +52,7 @@ const CustomDirectCall2 = () => {
             setIsCall={setIsCall}
             setCallCtx={setCallCtx}
           />
+          {/* 전화를 거는 상황 */}
           {isCall && (
             <CallView
               callCtx={callCtx}
@@ -59,6 +60,7 @@ const CustomDirectCall2 = () => {
               setIsCall={setIsCall}
             />
           )}
+          {/* 전화가 오는 상황 */}
           {ringing && (
             <RingingView
               calleeCtx={calleeCtx}
