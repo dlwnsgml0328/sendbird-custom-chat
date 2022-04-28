@@ -1,7 +1,7 @@
 import Channel from '@sendbird/uikit-react/Channel';
 import ChannelList from '@sendbird/uikit-react/ChannelList';
 import SendbirdProvider from '@sendbird/uikit-react/SendbirdProvider';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import SendBirdCall from 'sendbird-calls';
 
 import LoginForm from '../../components/LoginForm';
@@ -12,11 +12,11 @@ import { APP_ID } from '../../config/const';
 const CustomChatWithCall = () => {
   // for call
   const [caller, setCaller] = useState('');
-  //   const [callee, setCallee] = useState('');
+  // const [callee, setCallee] = useState('');
 
   const [loginDone, setLoginDone] = useState(false);
-  const [callDone, setCallDone] = useState(false);
-  //   const [isCall, setIsCall] = useState(false);
+  // const [callDone, setCallDone] = useState(false);
+  // const [isCall, setIsCall] = useState(false);
 
   // for chat
   const [selectedChannel, setSelectedChannel] = useState('');
@@ -28,25 +28,6 @@ const CustomChatWithCall = () => {
       return;
     }
   }, []);
-
-  useEffect(() => {
-    if (loginDone && SendBirdCall) {
-      SendBirdCall.onRinging = (call) => {
-        const callView = SendBirdCall.getInstance();
-        callView.setCall(call);
-        callView.render();
-        callView.setRinging();
-
-        setCallDone(true);
-      };
-    }
-  }, [loginDone]);
-
-  useEffect(() => {
-    if (callDone) {
-      console.log('callDone');
-    }
-  }, [callDone]);
 
   return (
     <div>
