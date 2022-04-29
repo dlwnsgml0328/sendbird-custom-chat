@@ -5,8 +5,12 @@ import SendBirdCall from 'sendbird-calls';
 import SendbirdProvider from '@sendbird/uikit-react/SendbirdProvider';
 import SendbirdSelectors from '@sendbird/uikit-react/sendBirdSelectors';
 import ChannelList from '@sendbird/uikit-react/ChannelList';
-import Channel from '@sendbird/uikit-react/Channel';
 import { withSendBird } from '@sendbird/uikit-react';
+
+import { ChannelProvider } from '@sendbird/uikit-react/Channel/context';
+import ChannelUI from '@sendbird/uikit-react/Channel/components/ChannelUI';
+
+// import { UserMessageCreateParams } from '@sendbird/chat/message';
 
 import styled from 'styled-components';
 
@@ -115,6 +119,14 @@ const CustomChannelSDK = () => {
     }
   }, [loginDone, ringing, callee]);
 
+  // useEffect(() => {
+  //   if (ringing) {
+  //     const userMessageParams = new UserMessageCreateParams();
+  //     userMessageParams.message = '안녕하세요'
+  //     selectedChannel.sendU
+  //   }
+  // }, [ringing]);
+
   return (
     <div>
       <h1>CustomChannelSDK</h1>
@@ -129,24 +141,26 @@ const CustomChannelSDK = () => {
             </div>
             {/* 채널 (우) */}
             <div style={{ flex: 3 }}>
-              <Channel
-                channelUrl={selectedChannel || ''}
-                renderChannelHeader={() => (
-                  <CustomChannelHeader>
-                    <CustomComponentWithSendBird />
-                    {/* 전화를 하기 위한 버튼 CallBtn (기존의 DialView 컴포넌트와 같은 용도) */}
-                    {selectedChannelMember?.length === 2 ? (
-                      <CallBtn
-                        SendBirdCall={SendBirdCall}
-                        callee={callee}
-                        setIsCall={setIsCall}
-                        setCallCtx={setCallCtx}
-                        setCallerTime={setCallerTime}
-                      />
-                    ) : null}
-                  </CustomChannelHeader>
-                )}
-              />
+              <ChannelProvider channelUrl={selectedChannel || ''}>
+                <ChannelUI
+                  channelUrl={selectedChannel || ''}
+                  renderChannelHeader={() => (
+                    <CustomChannelHeader>
+                      <CustomComponentWithSendBird />
+                      {/* 전화를 하기 위한 버튼 CallBtn (기존의 DialView 컴포넌트와 같은 용도) */}
+                      {selectedChannelMember?.length === 2 ? (
+                        <CallBtn
+                          SendBirdCall={SendBirdCall}
+                          callee={callee}
+                          setIsCall={setIsCall}
+                          setCallCtx={setCallCtx}
+                          setCallerTime={setCallerTime}
+                        />
+                      ) : null}
+                    </CustomChannelHeader>
+                  )}
+                />
+              </ChannelProvider>
             </div>
           </div>
           {/* 전화를 거는 상황 */}
