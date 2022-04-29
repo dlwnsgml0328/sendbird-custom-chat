@@ -19,6 +19,8 @@ const RingingView = ({ calleeCtx, setRinging, setIsCall }) => {
         },
       };
 
+      let time = 0;
+
       calleeCtx.onEstablished = (calleeCtx) => {
         console.log('callee onEstablished', calleeCtx);
       };
@@ -29,10 +31,17 @@ const RingingView = ({ calleeCtx, setRinging, setIsCall }) => {
         setIsCall(true);
 
         calleeCtx.startVideo();
+
+        time = setInterval(() => {
+          console.log(
+            Math.floor(Number(calleeCtx.getDuration() / 1000)) + '초',
+          );
+        }, [1000]);
       };
 
       calleeCtx.onEnded = (calleeCtx) => {
         console.log('callee onEnded', calleeCtx);
+        clearInterval(time);
         setIsCall(false);
       };
 

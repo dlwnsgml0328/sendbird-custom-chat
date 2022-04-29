@@ -28,6 +28,8 @@ const DialView = ({
             return;
           }
 
+          let time = 0;
+
           console.log('success call process: ', call);
           setIsCall(true);
           setCallCtx(call);
@@ -40,6 +42,10 @@ const DialView = ({
           call.onConnected = (call) => {
             console.log('caller onConnected', call);
             call.startVideo();
+
+            time = setInterval(() => {
+              console.log(Math.floor(Number(call.getDuration() / 1000)) + '초');
+            }, [1000]);
           };
 
           call.onReconnected = (call) => {
@@ -53,6 +59,7 @@ const DialView = ({
           call.onEnded = (call) => {
             console.log('caller onEnded', call);
             // caller 전화 상태 끄기
+            clearInterval(time);
             setIsCall(false);
           };
 

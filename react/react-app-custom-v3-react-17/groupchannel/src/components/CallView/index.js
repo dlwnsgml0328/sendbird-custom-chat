@@ -96,6 +96,30 @@ const CallView = ({ callCtx, calleeCtx, setIsCall }) => {
             <div>
               <span>음성 통화</span>
             </div>
+            <AudioWrapper>
+              <div>
+                <span>
+                  본인:{' '}
+                  {callCtx
+                    ? callCtx._caller.userId
+                    : calleeCtx
+                    ? calleeCtx._callee.userId
+                    : null}
+                </span>
+                <audio ref={localMediaViewRef} autoPlay muted={false} />
+              </div>
+              <div>
+                <span>
+                  상대방:{' '}
+                  {callCtx
+                    ? callCtx._callee.userId
+                    : calleeCtx
+                    ? calleeCtx._caller.userId
+                    : null}
+                </span>
+                <audio ref={remotelMediaViewRef} autoPlay muted={false} />
+              </div>
+            </AudioWrapper>
             <div className="btn_group">
               <button onClick={() => closeOverlay()}>통화 종료</button>
             </div>
@@ -148,5 +172,23 @@ const VideoViewWrapper = styled.div`
     width: 95%;
     height: auto;
     display: flex;
+  }
+`;
+
+const AudioWrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 5%;
+
+  div {
+    border: 2px solid #fff;
+    width: 30%;
+    height: 40vh;
+    text-align: center;
+    padding: 2%;
+
+    span {
+      font-size: 2rem;
+    }
   }
 `;
