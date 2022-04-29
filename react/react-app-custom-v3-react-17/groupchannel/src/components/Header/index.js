@@ -44,6 +44,9 @@ const Header = () => {
       <li>
         <Link to="/custom_chat_call">custom chat call</Link>
       </li>
+      <li>
+        <Link to="/custom_channel_sdk">custom channel sdk</Link>
+      </li>
     </HeaderWrap>
   );
 };

@@ -16,6 +16,7 @@ import CustomDirectCall from './pages/CustomDirectCall';
 import Header from './components/Header';
 import CustomChatWithCall from './pages/CustomChatWithCall';
 import CustomDirectCall2 from './pages/CustomDirectCall_v2';
+import CustomChannelSDK from './pages/CustomChannelSDK';
 
 function App() {
   return (
@@ -60,6 +61,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/custom_chat_call" element={<CustomChatWithCall />} />
+      </Routes>
+      <Routes>
+        <Route path="/custom_channel_sdk" element={<CustomChannelSDK />} />
       </Routes>
     </BrowserRouter>
   );
