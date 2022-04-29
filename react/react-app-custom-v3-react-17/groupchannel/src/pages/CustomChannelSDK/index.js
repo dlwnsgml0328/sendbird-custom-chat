@@ -11,7 +11,7 @@ import { withSendBird } from '@sendbird/uikit-react';
 import styled from 'styled-components';
 
 import { APP_ID } from '../../config/const';
-import LoginForm from '../../components/LoginFormWithHOC';
+import LoginForm from '../../components/LoginForm';
 
 const CustomChannelSDK = () => {
   // for call
