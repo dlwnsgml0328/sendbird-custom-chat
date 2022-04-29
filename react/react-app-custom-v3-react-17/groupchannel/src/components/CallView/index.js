@@ -230,11 +230,7 @@ const Overlay = styled.div`
     }
 
     .btn_group {
-      position: absolute;
-      bottom: 10%;
-      left: 0;
-      right: 0;
-      text-align: center;
+      margin-top: 10%;
     }
   }
 `;
