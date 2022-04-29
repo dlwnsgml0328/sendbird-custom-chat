@@ -11,7 +11,7 @@ const CustomDirectCall2 = () => {
   const [callee, setCallee] = useState('');
 
   const [loginDone, setLoginDone] = useState(false);
-  // const [callDone, setCallDone] = useState(false);
+
   const [isCall, setIsCall] = useState(false);
 
   const [callCtx, setCallCtx] = useState();
