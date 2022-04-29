@@ -19,6 +19,9 @@ const CustomDirectCall2 = () => {
 
   const [ringing, setRinging] = useState(false);
 
+  const [callerTime, setCallerTime] = useState(0);
+  const [calleeTime, setCalleeTime] = useState(0);
+
   useEffect(() => {
     if (loginDone & !ringing) {
       SendBirdCall.addListener(callee, {
@@ -51,6 +54,7 @@ const CustomDirectCall2 = () => {
             setCallee={setCallee}
             setIsCall={setIsCall}
             setCallCtx={setCallCtx}
+            setCallerTime={setCallerTime}
           />
           {/* 전화를 거는 상황 */}
           {isCall && (
@@ -58,6 +62,8 @@ const CustomDirectCall2 = () => {
               callCtx={callCtx}
               calleeCtx={calleeCtx}
               setIsCall={setIsCall}
+              callerTime={callerTime}
+              calleeTime={calleeTime}
             />
           )}
           {/* 전화가 오는 상황 */}
@@ -66,6 +72,7 @@ const CustomDirectCall2 = () => {
               calleeCtx={calleeCtx}
               setRinging={setRinging}
               setIsCall={setIsCall}
+              setCalleeTime={setCalleeTime}
             />
           )}
         </>

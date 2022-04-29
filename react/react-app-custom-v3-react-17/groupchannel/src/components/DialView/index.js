@@ -7,6 +7,7 @@ const DialView = ({
   setCallee,
   setIsCall,
   setCallCtx,
+  setCallerTime,
 }) => {
   // SendBirdCall.dial 의 파라미터로 넘겨주는 call 의 인터페이스가 DirectCall
   const dial = useCallback(
@@ -44,7 +45,8 @@ const DialView = ({
             call.startVideo();
 
             time = setInterval(() => {
-              console.log(Math.floor(Number(call.getDuration() / 1000)) + '초');
+              // console.log(Math.floor(Number(call.getDuration() / 1000)) + '초');
+              setCallerTime(Math.floor(Number(call.getDuration() / 1000)));
             }, [1000]);
           };
 
@@ -73,7 +75,7 @@ const DialView = ({
         },
       );
     },
-    [SendBirdCall, callee, setIsCall, setCallee, setCallCtx],
+    [SendBirdCall, callee, setIsCall, setCallee, setCallCtx, setCallerTime],
   );
 
   return (

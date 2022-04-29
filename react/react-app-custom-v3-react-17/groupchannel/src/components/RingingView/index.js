@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const RingingView = ({ calleeCtx, setRinging, setIsCall }) => {
+const RingingView = ({ calleeCtx, setRinging, setIsCall, setCalleeTime }) => {
   const [caller, setCaller] = useState('');
 
   useEffect(() => {
@@ -33,9 +33,10 @@ const RingingView = ({ calleeCtx, setRinging, setIsCall }) => {
         calleeCtx.startVideo();
 
         time = setInterval(() => {
-          console.log(
-            Math.floor(Number(calleeCtx.getDuration() / 1000)) + '초',
-          );
+          // console.log(
+          //   Math.floor(Number(calleeCtx.getDuration() / 1000)) + '초',
+          // );
+          setCalleeTime(Math.floor(Number(calleeCtx.getDuration() / 1000)));
         }, [1000]);
       };
 
@@ -55,7 +56,7 @@ const RingingView = ({ calleeCtx, setRinging, setIsCall }) => {
 
       calleeCtx.accept(acceptParams);
     },
-    [setIsCall, setRinging],
+    [setIsCall, setRinging, setCalleeTime],
   );
 
   const end = useCallback(() => {
@@ -133,5 +134,11 @@ const Overlay = styled.div`
 
   .caller {
     font-size: 2rem;
+  }
+
+  @media only screen and (max-width: 480px) {
+    .caller {
+      font-size: 1rem;
+    }
   }
 `;
