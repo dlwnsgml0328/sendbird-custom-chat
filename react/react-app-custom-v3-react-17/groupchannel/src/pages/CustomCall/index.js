@@ -74,6 +74,15 @@ const CustomCall = () => {
           console.log('disconnect done 🔥');
         })
         .catch((e) => console.log('Failed to disconnect', e));
+
+      console.log(
+        '@ cached room state',
+        SendBirdCall.getCachedRoomById(room.roomId),
+      );
+
+      console.log('@ cached room state (...)', {
+        ...SendBirdCall.getCachedRoomById(room.roomId),
+      });
     } else {
       console.log('check the roomState');
       return;
@@ -83,6 +92,11 @@ const CustomCall = () => {
   useEffect(() => {
     if (roomState) {
       console.log('room', room);
+
+      console.log(
+        'cached room state',
+        SendBirdCall.getCachedRoomById(room.roomId),
+      );
 
       SendBirdCall.fetchRoomById(room.roomId)
         .then((room) => {

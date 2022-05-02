@@ -16,7 +16,7 @@ const CustomGroupCall = () => {
 
   useEffect(() => {
     if (roomCtx) {
-      console.log('@ roomCtx', roomCtx);
+      console.log('@ roomCtx', roomCtx, roomCtx.participants);
       console.log('@ ...roomCtx', { ...roomCtx });
     } else {
       console.log('no CTX');

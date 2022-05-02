@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const RoomControllerView = ({
   SendBirdCall,
   roomId,
-  roomCtx,
   setRoomId,
   setRoomCtx,
   setRoomDone,
@@ -49,18 +48,19 @@ const RoomControllerView = ({
 
         room.on('remoteParticipantEntered', (participant) => {
           console.log('@ participant entered', participant);
-          console.log(
-            '@ SendBirdCall.getCachedRoomById(roomId): ',
-            SendBirdCall.getCachedRoomById(roomId),
-          );
-          setRoomCtx({
-            ...roomCtx,
-            participants: SendBirdCall.getCachedRoomById(roomId).participants,
-          });
+
+          SendBirdCall.fetchRoomById(roomId)
+            .then((room) => {
+              setRoomCtx(room);
+            })
+            .catch((error) => {
+              console.log('error', error);
+            });
         });
 
         room.on('remoteParticipantExited', (participant) => {
           console.log('@ participant exited', participant);
+
           SendBirdCall.fetchRoomById(roomId).then((room) => {
             setRoomCtx(room);
             console.log('@ room updated by exit: ', room);
@@ -86,7 +86,7 @@ const RoomControllerView = ({
       .catch((error) => {
         console.log('error fetching room', error);
       });
-  }, [SendBirdCall, setRoomDone, roomId, setRoomCtx, roomCtx]);
+  }, [SendBirdCall, setRoomDone, roomId, setRoomCtx]);
 
   return (
     <RoomController>
