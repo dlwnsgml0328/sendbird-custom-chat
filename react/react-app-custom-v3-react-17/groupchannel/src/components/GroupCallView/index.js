@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-const GroupCallView = ({ roomCtx, exitRoom }) => {
+const GroupCallView = ({ roomId, setRoomDone, SendBirdCall, roomCtx }) => {
+  const exitRoom = useCallback(() => {
+    SendBirdCall.fetchRoomById(roomId)
+      .then((room) => {
+        room.exit();
+        setRoomDone(false);
+        console.log('Room exited');
+      })
+      .catch((error) => {
+        console.log('error exit room', error);
+      });
+  }, [SendBirdCall, setRoomDone, roomId]);
+
   return (
     <Overlay>
       <div>
@@ -15,11 +27,17 @@ const GroupCallView = ({ roomCtx, exitRoom }) => {
         {roomCtx?.participants.map((person) => (
           <div className="person" key={person.participantId}>
             <div className="person_info">
-              <span>{person.user.userId}</span>
-
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114.3 60.7">
-                <path d="M113.05,59.18l-2-.41c-42.82-8.89-65-8.89-107.82,0l-2,.41v-51l1.32-.27C45.42-1,68.89-1,111.74,7.92l1.31.27Z" />
-              </svg>
+              <div>
+                <span>{person.user.userId}</span>
+              </div>
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 114.3 60.7"
+                >
+                  <path d="M113.05,59.18l-2-.41c-42.82-8.89-65-8.89-107.82,0l-2,.41v-51l1.32-.27C45.42-1,68.89-1,111.74,7.92l1.31.27Z" />
+                </svg>
+              </div>
             </div>
           </div>
         ))}
@@ -70,15 +88,18 @@ const Overlay = styled.div`
   .person {
     margin: 1%;
     border: 2px solid #fff;
-    width: 31%;
+    width: 30%;
     height: 40vh;
   }
 
   .person_info {
     padding: 5%;
     height: 90%;
+    text-align: center;
 
     svg {
+      margin-top: 5%;
+      max-width: 250px;
       cursor: pointer;
     }
 

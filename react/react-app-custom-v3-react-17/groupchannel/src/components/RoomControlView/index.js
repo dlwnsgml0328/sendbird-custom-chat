@@ -1,7 +1,93 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-const RoomControllerView = ({ createRoom, enterRoom, roomId, setRoomId }) => {
+const RoomControllerView = ({
+  SendBirdCall,
+  roomId,
+  roomCtx,
+  setRoomId,
+  setRoomCtx,
+  setRoomDone,
+}) => {
+  // 방 만들기
+  const createRoom = useCallback(() => {
+    const roomParams = {
+      roomType: SendBirdCall.RoomType.LARGE_ROOM_FOR_AUDIO_ONLY,
+    };
+
+    SendBirdCall.createRoom(roomParams)
+      .then((room) => {
+        console.log('room created', room);
+        setRoomCtx(room);
+      })
+      .catch((e) => {
+        console.log('Failed to create room', e);
+      })
+      .finally(() => {
+        console.log('Room processing complete');
+      });
+  }, [SendBirdCall, setRoomCtx]);
+
+  // 방 입장하기
+  const enterRoom = useCallback(() => {
+    SendBirdCall.fetchRoomById(roomId)
+      .then((room) => {
+        console.log('fetch room successfully', room, room.participants);
+        setRoomCtx(room);
+
+        const enterParams = { audioEnalbed: true };
+
+        room
+          .enter(enterParams)
+          .then(() => {
+            console.log('User has successfully joined');
+            setRoomDone(true);
+          })
+          .catch((error) => {
+            console.log('failed to join room', error);
+          });
+
+        room.on('remoteParticipantEntered', (participant) => {
+          console.log('@ participant entered', participant);
+          console.log(
+            '@ SendBirdCall.getCachedRoomById(roomId): ',
+            SendBirdCall.getCachedRoomById(roomId),
+          );
+          setRoomCtx({
+            ...roomCtx,
+            participants: SendBirdCall.getCachedRoomById(roomId).participants,
+          });
+        });
+
+        room.on('remoteParticipantExited', (participant) => {
+          console.log('@ participant exited', participant);
+          SendBirdCall.fetchRoomById(roomId).then((room) => {
+            setRoomCtx(room);
+            console.log('@ room updated by exit: ', room);
+          });
+        });
+
+        room.on('remoteParticipantStreamStarted', (participant) => {
+          console.log('@ participant stream started', participant);
+          SendBirdCall.fetchRoomById(roomId).then((room) => {
+            setRoomCtx(room);
+            console.log('@ room updated by stream: ', room);
+          });
+        });
+
+        room.on('remoteAudioSettingsChanged', (participant) => {
+          console.log('@ participant audio setting changed', participant);
+          SendBirdCall.fetchRoomById(roomId).then((room) => {
+            setRoomCtx(room);
+            console.log('@ room updated by audio setting: ', room);
+          });
+        });
+      })
+      .catch((error) => {
+        console.log('error fetching room', error);
+      });
+  }, [SendBirdCall, setRoomDone, roomId, setRoomCtx, roomCtx]);
+
   return (
     <RoomController>
       <div className="room_container">
@@ -57,3 +143,17 @@ const RoomController = styled.div`
     }
   }
 `;
+
+/* 
+Room event map
+
+  remoteParticipantEntered: { args: [RemoteParticipant]; };
+  remoteParticipantExited: { args: [RemoteParticipant]; };
+  remoteParticipantStreamStarted: { args: [RemoteParticipant]; };
+  remoteAudioSettingsChanged: { args: [RemoteParticipant]; };
+  remoteVideoSettingsChanged: { args: [RemoteParticipant]; };
+  customItemsUpdated: { args: [CustomItems, string[]] };
+  customItemsDeleted: { args: [CustomItems, string[]] };
+  deleted: {};
+  error: { args: [Error, Participant?] };
+ */
