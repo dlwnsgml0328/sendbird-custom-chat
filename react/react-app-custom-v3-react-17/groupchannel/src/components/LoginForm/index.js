@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { APP_ID } from '../../config/const';
 
-const LoginFormWithHOC = ({
+const LoginForm = ({
   caller,
   setCaller,
   setLoginDone,
@@ -61,7 +61,7 @@ const LoginFormWithHOC = ({
   );
 };
 
-export default LoginFormWithHOC;
+export default LoginForm;
 
 const CustomForm = styled.form`
   padding: 1%;

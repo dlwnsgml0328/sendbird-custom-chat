@@ -36,6 +36,9 @@ const Header = () => {
         <Link to="/group_call">group call</Link>
       </li>
       <li>
+        <Link to="/custom_group_call">custom group call</Link>
+      </li>
+      <li>
         <Link to="/direct_call">direct call</Link>
       </li>
       <li>
