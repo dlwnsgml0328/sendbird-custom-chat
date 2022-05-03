@@ -1,7 +1,15 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
-const GroupCallView = ({ roomId, setRoomDone, SendBirdCall, roomCtx }) => {
+const GroupCallView = ({
+  roomId,
+  setRoomDone,
+  SendBirdCall,
+  roomCtx,
+  caller,
+}) => {
+  const [mute, setMute] = useState(false);
+
   const exitRoom = useCallback(() => {
     SendBirdCall.fetchRoomById(roomId)
       .then((room) => {
@@ -13,6 +21,21 @@ const GroupCallView = ({ roomId, setRoomDone, SendBirdCall, roomCtx }) => {
         console.log('error exit room', error);
       });
   }, [SendBirdCall, setRoomDone, roomId]);
+
+  const muteHandler = useCallback(
+    (mute = false) => {
+      SendBirdCall.fetchRoomById(roomId).then((room) => {
+        if (!mute) {
+          room.localParticipant.muteMicrophone();
+          setMute(true);
+        } else {
+          room.localParticipant.unmuteMicrophone();
+          setMute(false);
+        }
+      });
+    },
+    [SendBirdCall, roomId],
+  );
 
   return (
     <Overlay>
@@ -28,6 +51,9 @@ const GroupCallView = ({ roomId, setRoomDone, SendBirdCall, roomCtx }) => {
           <div className="person" key={person.participantId}>
             <div className="person_info">
               <div>
+                <span>
+                  {caller === person.user.userId ? '본인: ' : '참여자: '}
+                </span>
                 <span>{person.user.userId}</span>
               </div>
               <div>
@@ -38,13 +64,33 @@ const GroupCallView = ({ roomId, setRoomDone, SendBirdCall, roomCtx }) => {
                   <path d="M113.05,59.18l-2-.41c-42.82-8.89-65-8.89-107.82,0l-2,.41v-51l1.32-.27C45.42-1,68.89-1,111.74,7.92l1.31.27Z" />
                 </svg>
 
+                {caller === person.user.userId ? (
+                  <div>
+                    {!mute ? (
+                      <button type="button" onClick={() => muteHandler(mute)}>
+                        <span role="img" aria-label="mute">
+                          Mute 📴
+                        </span>
+                      </button>
+                    ) : (
+                      <button type="button" onClick={() => muteHandler(mute)}>
+                        <span role="img" aria-label="un_mute">
+                          un Mute 📳
+                        </span>
+                      </button>
+                    )}
+                  </div>
+                ) : null}
+
+                {/* 오디오 관련 라이브러리  */}
                 <audio
                   ref={(el) => {
+                    console.log('el: ', el);
                     if (!el) return;
                     person.setMediaView(el);
                   }}
                   autoPlay
-                  muted={false}
+                  playsInline
                 />
               </div>
             </div>

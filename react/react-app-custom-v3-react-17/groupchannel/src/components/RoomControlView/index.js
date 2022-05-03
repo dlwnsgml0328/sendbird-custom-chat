@@ -51,7 +51,6 @@ const RoomControllerView = ({
 
           SendBirdCall.fetchRoomById(roomId)
             .then((room) => {
-              console.log('prev roomCtx', { ...room });
               setRoomCtx({
                 ...room,
                 participants: room.participants,
