@@ -37,6 +37,15 @@ const GroupCallView = ({ roomId, setRoomDone, SendBirdCall, roomCtx }) => {
                 >
                   <path d="M113.05,59.18l-2-.41c-42.82-8.89-65-8.89-107.82,0l-2,.41v-51l1.32-.27C45.42-1,68.89-1,111.74,7.92l1.31.27Z" />
                 </svg>
+
+                <audio
+                  ref={(el) => {
+                    if (!el) return;
+                    person.setMediaView(el);
+                  }}
+                  autoPlay
+                  muted={false}
+                />
               </div>
             </div>
           </div>
