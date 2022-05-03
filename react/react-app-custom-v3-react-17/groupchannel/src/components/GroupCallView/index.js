@@ -15,14 +15,13 @@ const GroupCallView = ({
       if (caller) {
         SendBirdCall.fetchRoomById(roomId)
           .then((room) => {
-            room.localParticipant
-              .setLocalMediaView(node)
-              .then((res) => {
-                console.log(res);
-              })
-              .catch((err) => {
-                console.error('error occured in setLocalMediaView', err);
-              });
+            room.participants.forEach((p) => {
+              if (p.user.userId === caller) {
+                p.setMediaView(node);
+              } else {
+                console.log('cant control user:', p.user.userId);
+              }
+            });
           })
           .catch((err) => {
             console.error('error occured in fetchRoomById', err);
