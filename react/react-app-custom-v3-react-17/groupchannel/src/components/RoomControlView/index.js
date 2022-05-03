@@ -5,6 +5,7 @@ const RoomControllerView = ({
   SendBirdCall,
   roomId,
   setRoomId,
+  roomCtx,
   setRoomCtx,
   setRoomDone,
 }) => {
@@ -51,7 +52,7 @@ const RoomControllerView = ({
 
           SendBirdCall.fetchRoomById(roomId)
             .then((room) => {
-              setRoomCtx(room);
+              setRoomCtx({ ...roomCtx, participants: room.participants });
             })
             .catch((error) => {
               console.log('error', error);
@@ -62,7 +63,7 @@ const RoomControllerView = ({
           console.log('@ participant exited', participant);
 
           SendBirdCall.fetchRoomById(roomId).then((room) => {
-            setRoomCtx(room);
+            setRoomCtx({ ...roomCtx, participants: room.participants });
             console.log('@ room updated by exit: ', room);
           });
         });
@@ -86,7 +87,7 @@ const RoomControllerView = ({
       .catch((error) => {
         console.log('error fetching room', error);
       });
-  }, [SendBirdCall, setRoomDone, roomId, setRoomCtx]);
+  }, [SendBirdCall, setRoomDone, roomId, setRoomCtx, roomCtx]);
 
   return (
     <RoomController>
