@@ -139,17 +139,32 @@ const RoomController = styled.div`
 
   .room_container {
     border: 1px solid #000;
-    flex: 1;
     height: 100%;
     margin: 32px;
     text-align: center;
+    width: 100%;
+    min-width: 200px;
 
     input {
-      width: 240px;
+      width: 180px;
     }
 
     div {
       margin: 3% 0;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    flex-wrap: wrap;
+    font-size: 4vw;
+
+    .room_container {
+      width: 100%;
+      height: 80%;
+    }
+
+    input {
+      width: 300px;
     }
   }
 `;

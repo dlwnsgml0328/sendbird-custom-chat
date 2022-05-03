@@ -10,6 +10,30 @@ const GroupCallView = ({
 }) => {
   const [mute, setMute] = useState(false);
 
+  const localMediaViewRef = useCallback(
+    (node) => {
+      if (caller) {
+        SendBirdCall.fetchRoomById(roomId)
+          .then((room) => {
+            room.localParticipant
+              .setLocalMediaView(node)
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((err) => {
+                console.error('error occured in setLocalMediaView', err);
+              });
+          })
+          .catch((err) => {
+            console.error('error occured in fetchRoomById', err);
+          });
+      } else {
+        return;
+      }
+    },
+    [SendBirdCall, caller, roomId],
+  );
+
   const exitRoom = useCallback(() => {
     SendBirdCall.fetchRoomById(roomId)
       .then((room) => {
@@ -84,13 +108,15 @@ const GroupCallView = ({
 
                 {/* 오디오 관련 라이브러리  */}
                 <audio
-                  ref={(el) => {
-                    console.log('el: ', el);
-                    if (!el) return;
-                    person.setMediaView(el);
-                  }}
+                  // ref={(el) => {
+                  //   console.log('el: ', el);
+                  //   if (!el) return;
+                  //   person.setMediaView(el);
+                  // }}
+                  ref={localMediaViewRef}
                   autoPlay
                   playsInline
+                  muted={false}
                 />
               </div>
             </div>
