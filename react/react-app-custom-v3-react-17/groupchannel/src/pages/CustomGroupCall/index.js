@@ -40,7 +40,6 @@ const CustomGroupCall = () => {
           <RoomControllerView
             SendBirdCall={SendBirdCall}
             roomId={roomId}
-            roomCtx={roomCtx}
             setRoomId={setRoomId}
             setRoomCtx={setRoomCtx}
             setRoomDone={setRoomDone}
