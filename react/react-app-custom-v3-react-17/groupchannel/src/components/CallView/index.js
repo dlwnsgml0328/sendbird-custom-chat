@@ -96,7 +96,7 @@ const CallView = ({
                   ref={localMediaViewRef}
                   id="local_video_element_id"
                   autoPlay
-                  muted={false}
+                  muted
                 />
               </div>
               <div>
@@ -154,7 +154,7 @@ const CallView = ({
                 >
                   <path d="M113.05,59.18l-2-.41c-42.82-8.89-65-8.89-107.82,0l-2,.41v-51l1.32-.27C45.42-1,68.89-1,111.74,7.92l1.31.27Z" />
                 </svg>
-                <audio ref={localMediaViewRef} autoPlay muted={false} />
+                <audio ref={localMediaViewRef} autoPlay muted />
               </div>
               <div>
                 <span>
