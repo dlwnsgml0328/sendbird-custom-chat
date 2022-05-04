@@ -10,27 +10,24 @@ const GroupCallView = ({
 }) => {
   const [mute, setMute] = useState(false);
 
-  const localMediaViewRef = useCallback(
+  const mediaViewRef = useCallback(
     (node) => {
-      if (caller) {
-        SendBirdCall.fetchRoomById(roomId)
-          .then((room) => {
-            room.participants.forEach((p) => {
-              if (p.user.userId === caller) {
-                p.setMediaView(node);
-              } else {
-                console.log('cant control user:', p.user.userId);
-              }
-            });
-          })
-          .catch((err) => {
-            console.error('error occured in fetchRoomById', err);
+      SendBirdCall.fetchRoomById(roomId)
+        .then((room) => {
+          room.participants.forEach((p) => {
+            // if (p.user.userId === caller) {
+            //   p.setMediaView(node);
+            // } else {
+            //   console.log('cant control user:', p.user.userId);
+            // }
+            p.setMediaView(node);
           });
-      } else {
-        return;
-      }
+        })
+        .catch((err) => {
+          console.error('error occured in fetchRoomById', err);
+        });
     },
-    [SendBirdCall, caller, roomId],
+    [SendBirdCall, roomId],
   );
 
   const exitRoom = useCallback(() => {
@@ -49,9 +46,11 @@ const GroupCallView = ({
     (mute = false) => {
       SendBirdCall.fetchRoomById(roomId).then((room) => {
         if (!mute) {
+          console.log(room.localParticipant.muteMicrophone());
           room.localParticipant.muteMicrophone();
           setMute(true);
         } else {
+          console.log(room.localParticipant.unmuteMicrophone());
           room.localParticipant.unmuteMicrophone();
           setMute(false);
         }
@@ -106,16 +105,24 @@ const GroupCallView = ({
                 ) : null}
 
                 {/* 오디오 관련 라이브러리  */}
+                {console.log(
+                  'caller === person.user.userId',
+                  caller === person.user.userId,
+                )}
                 <audio
                   // ref={(el) => {
                   //   console.log('el: ', el);
                   //   if (!el) return;
                   //   person.setMediaView(el);
                   // }}
-                  ref={localMediaViewRef}
+                  // 영상 실행시 자동으로 전체화면을 막는 기능 : playsinline
+                  // ref={(node) => {
+                  //   if (!node) return;
+                  //   person.setMediaView(node);
+                  // }}
+                  ref={mediaViewRef}
                   autoPlay
-                  playsInline
-                  muted={false}
+                  muted={caller === person.user.userId}
                 />
               </div>
             </div>
