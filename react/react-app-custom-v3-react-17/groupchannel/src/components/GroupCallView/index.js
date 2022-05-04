@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const GroupCallView = ({
@@ -7,28 +7,39 @@ const GroupCallView = ({
   SendBirdCall,
   roomCtx,
   caller,
+  moderator,
 }) => {
   const [mute, setMute] = useState(false);
 
-  // const mediaViewRef = useCallback(
-  //   (node) => {
-  //     SendBirdCall.fetchRoomById(roomId)
-  //       .then((room) => {
-  //         room.participants.forEach((p) => {
-  //           if (p.user.userId === caller) {
-  //             p.setMediaView(node);
-  //           } else {
-  //             console.log('cant control user:', p.user.userId);
-  //           }
-  //           // p.setMediaView(node);
-  //         });
-  //       })
-  //       .catch((err) => {
-  //         console.error('error occured in fetchRoomById', err);
-  //       });
-  //   },
-  //   [SendBirdCall, caller, roomId],
-  // );
+  useEffect(() => {
+    if (caller === moderator) {
+      console.log(
+        'moderator 이므로 방에 대한 정보와 권한을 받습니다.',
+        roomCtx,
+      );
+    }
+  }, [caller, moderator, roomCtx]);
+
+  const mediaViewRef = useCallback(
+    (node) => {
+      SendBirdCall.fetchRoomById(roomId)
+        .then((room) => {
+          room.setAudioForLargeRoom(node);
+          // room.participants.forEach((p) => {
+          //   if (p.user.userId === caller) {
+          //     p.setMediaView(node);
+          //   } else {
+          //     console.log('cant control user:', p.user.userId);
+          //     p.setMediaView(node);
+          //   }
+          // });
+        })
+        .catch((err) => {
+          console.error('error occured in fetchRoomById', err);
+        });
+    },
+    [SendBirdCall, roomId],
+  );
 
   const exitRoom = useCallback(() => {
     SendBirdCall.fetchRoomById(roomId)
@@ -73,6 +84,11 @@ const GroupCallView = ({
           <div className="person" key={person.participantId}>
             <div className="person_info">
               <div>
+                {moderator === person.user.userId && (
+                  <span>
+                    <b>Moderator </b>
+                  </span>
+                )}
                 <span>
                   {caller === person.user.userId ? '본인: ' : '참여자: '}
                 </span>
@@ -104,23 +120,21 @@ const GroupCallView = ({
                   </div>
                 ) : null}
 
+                {moderator === caller ? (
+                  <ModeratorMode
+                    person={person}
+                    caller={caller}
+                    SendBirdCall={SendBirdCall}
+                    roomId={roomId}
+                  />
+                ) : null}
+
                 {/* 오디오 관련 라이브러리  */}
-                <video
-                  // ref={(el) => {
-                  //   console.log('el: ', el);
-                  //   if (!el) return;
-                  //   person.setMediaView(el);
-                  // }}
-                  // 영상 실행시 자동으로 전체화면을 막는 기능 : playsinline
-                  playsInline
-                  ref={(node) => {
-                    if (!node) return;
-                    console.log('node , person', node, person);
-                    person.setMediaView(node);
-                  }}
-                  // ref={mediaViewRef}
+                <audio
+                  // playsInline
+                  ref={mediaViewRef}
                   autoPlay
-                  // muted={caller === person.user.userId}
+                  muted={caller === person.user.userId}
                 />
               </div>
             </div>
@@ -139,6 +153,33 @@ const GroupCallView = ({
 
 export default GroupCallView;
 
+const ModeratorMode = ({ person, caller, SendBirdCall, roomId }) => {
+  // mute this player
+  const muteSomeone = (person) => {
+    SendBirdCall.fetchRoomById(roomId)
+      .then((room) => {
+        console.log('@ mute for room room', room, person);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  return (
+    <>
+      {caller !== person.user.userId ? (
+        <div>
+          <button type="button" onClick={() => muteSomeone(person)}>
+            <span role="img" aria-label="mute">
+              Mute this player 📴
+            </span>
+          </button>
+        </div>
+      ) : null}
+    </>
+  );
+};
+
 const Overlay = styled.div`
   position: absolute;
   top: 0;
@@ -156,6 +197,12 @@ const Overlay = styled.div`
     text-align: center;
 
     cursor: pointer;
+  }
+
+  video {
+    background-color: #000;
+    border: 2px solid #000;
+    width: 100%;
   }
 
   .exit {

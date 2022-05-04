@@ -14,9 +14,12 @@ const CustomGroupCall = () => {
   const [roomCtx, setRoomCtx] = useState();
   const [roomDone, setRoomDone] = useState(false);
 
+  const [moderator, setModerator] = useState('');
+
   useEffect(() => {
     if (roomCtx) {
       console.log('@ roomCtx', roomCtx);
+      setModerator(roomCtx.createdBy);
     } else {
       console.log('no CTX');
     }
@@ -51,6 +54,7 @@ const CustomGroupCall = () => {
               SendBirdCall={SendBirdCall}
               roomCtx={roomCtx}
               caller={caller}
+              moderator={moderator}
             />
           )}
         </>
