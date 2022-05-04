@@ -12,6 +12,10 @@ const GroupCallView = ({
   const [mute, setMute] = useState(false);
 
   useEffect(() => {
+    console.log('caller: ', caller);
+  }, [caller]);
+
+  useEffect(() => {
     if (caller === moderator) {
       console.log('you are a moderator', roomCtx);
     }
@@ -89,7 +93,7 @@ const GroupCallView = ({
                 </span>
                 <span>{person.user.userId}</span>
               </div>
-              <div>
+              <div className="audio_main">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 114.3 60.7"
@@ -128,6 +132,7 @@ const GroupCallView = ({
                 <audio
                   ref={mediaViewRef}
                   autoPlay
+                  controls
                   muted={caller === person.user.userId}
                 />
               </div>
@@ -184,6 +189,11 @@ const Overlay = styled.div`
   background: #6211c8;
   color: #fff;
 
+  audio {
+    width: 100%;
+    margin-top: 40px;
+  }
+
   button {
     border: 2px solid #fff;
     background: #6211c8;
@@ -214,7 +224,7 @@ const Overlay = styled.div`
   .person {
     margin: 1%;
     border: 2px solid #fff;
-    width: 30%;
+    width: 45%;
     height: 40vh;
   }
 
@@ -246,5 +256,10 @@ const Overlay = styled.div`
     left: 0%;
     right: 0%;
     text-align: center;
+  }
+
+  .audio_main {
+    max-height: 274px;
+    height: 100%;
   }
 `;
