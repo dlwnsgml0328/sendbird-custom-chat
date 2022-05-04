@@ -25,7 +25,10 @@ const GroupCallView = ({
     (node) => {
       SendBirdCall.fetchRoomById(roomId)
         .then((room) => {
-          room.setAudioForLargeRoom(node);
+          room.participants.forEach((p) => {
+            p.setMediaView(node);
+          });
+          // room.setAudioForLargeRoom(node);
         })
         .catch((err) => {
           console.error('error occured in fetchRoomById', err);
