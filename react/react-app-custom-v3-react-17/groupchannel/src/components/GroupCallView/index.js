@@ -13,10 +13,7 @@ const GroupCallView = ({
 
   useEffect(() => {
     if (caller === moderator) {
-      console.log(
-        'moderator 이므로 방에 대한 정보와 권한을 받습니다.',
-        roomCtx,
-      );
+      console.log('you are a moderator', roomCtx);
     }
   }, [caller, moderator, roomCtx]);
 
@@ -25,14 +22,6 @@ const GroupCallView = ({
       SendBirdCall.fetchRoomById(roomId)
         .then((room) => {
           room.setAudioForLargeRoom(node);
-          // room.participants.forEach((p) => {
-          //   if (p.user.userId === caller) {
-          //     p.setMediaView(node);
-          //   } else {
-          //     console.log('cant control user:', p.user.userId);
-          //     p.setMediaView(node);
-          //   }
-          // });
         })
         .catch((err) => {
           console.error('error occured in fetchRoomById', err);
@@ -57,11 +46,17 @@ const GroupCallView = ({
     (mute = false) => {
       SendBirdCall.fetchRoomById(roomId).then((room) => {
         if (!mute) {
-          console.log(room.localParticipant.muteMicrophone());
+          console.log(
+            'muteMicrophone():',
+            room.localParticipant.muteMicrophone(),
+          );
           room.localParticipant.muteMicrophone();
           setMute(true);
         } else {
-          console.log(room.localParticipant.unmuteMicrophone());
+          console.log(
+            'un muteMicrophone():',
+            room.localParticipant.unmuteMicrophone(),
+          );
           room.localParticipant.unmuteMicrophone();
           setMute(false);
         }
@@ -131,7 +126,6 @@ const GroupCallView = ({
 
                 {/* 오디오 관련 라이브러리  */}
                 <audio
-                  // playsInline
                   ref={mediaViewRef}
                   autoPlay
                   muted={caller === person.user.userId}

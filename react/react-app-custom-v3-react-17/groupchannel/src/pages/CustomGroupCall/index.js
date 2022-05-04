@@ -21,11 +21,9 @@ const CustomGroupCall = () => {
       console.log('@ roomCtx', roomCtx);
       setModerator(roomCtx.createdBy);
     } else {
-      console.log('no CTX');
+      console.log('@ Ctx doesn`t exist');
     }
   }, [roomCtx]);
-
-  // ca7ee077-9b8f-4424-9a38-4d55c2057368
 
   return (
     <div>
