@@ -16,14 +16,20 @@ const CustomGroupCall = () => {
 
   const [moderator, setModerator] = useState('');
 
+  const [moderatedPlayers, setModeratedPlayers] = useState([]);
+
   useEffect(() => {
     if (roomCtx) {
-      console.log('@ roomCtx', roomCtx);
       setModerator(roomCtx.createdBy);
-    } else {
-      console.log('@ Ctx doesn`t exist');
+      setModeratedPlayers(JSON.parse(roomCtx?.customItems?.key2));
     }
   }, [roomCtx]);
+
+  useEffect(() => {
+    if (moderatedPlayers.length > 0) {
+      console.log('moderatedPlayers: ', moderatedPlayers);
+    }
+  }, [moderatedPlayers]);
 
   return (
     <div>
@@ -53,6 +59,8 @@ const CustomGroupCall = () => {
               roomCtx={roomCtx}
               caller={caller}
               moderator={moderator}
+              moderatedPlayers={moderatedPlayers}
+              setModeratedPlayers={setModeratedPlayers}
             />
           )}
         </>

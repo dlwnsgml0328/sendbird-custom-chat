@@ -10,14 +10,17 @@ const RoomControllerView = ({
 }) => {
   // 방 만들기
   const createRoom = useCallback(() => {
+    // const customItem = { key1: 'value1' };
     const roomParams = {
       roomType: SendBirdCall.RoomType.LARGE_ROOM_FOR_AUDIO_ONLY,
+      // customItem: customItem,
     };
 
     SendBirdCall.createRoom(roomParams)
       .then((room) => {
         console.log('room created', room);
         setRoomCtx(room);
+        room.setAudioForLargeRoom(null);
       })
       .catch((e) => {
         console.log('Failed to create room', e);
@@ -36,6 +39,17 @@ const RoomControllerView = ({
 
         const enterParams = { audioEnalbed: true };
 
+        // custom logic
+        const customItem = { key1: '왁왁' };
+        room
+          .updateCustomItems(customItem)
+          .then((res) => {
+            console.log('enter room customItem updated', res);
+          })
+          .catch((err) => {
+            console.log('err: ', err);
+          });
+
         room
           .enter(enterParams)
           .then(() => {
@@ -45,6 +59,25 @@ const RoomControllerView = ({
           .catch((error) => {
             console.log('failed to join room', error);
           });
+
+        room.on('customItemsUpdated', (customItems, affectedKeys) => {
+          // console.log('# customItemsUpdated');
+          // console.log('# customItems: ', customItems);
+          // console.log('# affectedKeys: ', affectedKeys);
+          SendBirdCall.fetchRoomById(roomId)
+            .then((room) => {
+              console.log('customItemsUpdated room', room);
+              setRoomCtx({
+                ...room,
+                participants: room.participants,
+                remoteParticipants: room.remoteParticipants,
+                localParticipants: room.localParticipants,
+              });
+            })
+            .catch((err) => {
+              console.log('error', err);
+            });
+        });
 
         room.on('remoteParticipantEntered', (participant) => {
           console.log('@ participant entered', participant);

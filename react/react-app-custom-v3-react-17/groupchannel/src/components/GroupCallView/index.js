@@ -10,22 +10,36 @@ const GroupCallView = ({
   moderator,
 }) => {
   const [mute, setMute] = useState(false);
+  const [controlPlayers, setControlPlayers] = useState([]);
 
   useEffect(() => {
-    console.log('caller: ', caller);
-  }, [caller]);
-
-  useEffect(() => {
-    if (caller === moderator) {
-      console.log('you are a moderator', roomCtx);
+    if (controlPlayers.length > 0) {
+      SendBirdCall.fetchRoomById(roomId)
+        .then((room) => {
+          // updateCustomItems
+          const customItem = { key2: JSON.stringify(controlPlayers) };
+          room
+            .updateCustomItems(customItem)
+            .then((res) => {
+              console.log('update CustomItems', res);
+            })
+            .catch((err) => {
+              console.log('error in update CustomItems', err);
+            });
+        })
+        .catch((err) => {
+          console.log('fetchRoomById error', err);
+        });
     }
-  }, [caller, moderator, roomCtx]);
+  }, [controlPlayers, SendBirdCall, roomId]);
 
   const mediaViewRef = useCallback(
     (node) => {
       SendBirdCall.fetchRoomById(roomId)
         .then((room) => {
-          room.setAudioForLargeRoom(node);
+          room.participants.forEach((p) => {
+            p.setMediaView(node);
+          });
         })
         .catch((err) => {
           console.error('error occured in fetchRoomById', err);
@@ -39,7 +53,7 @@ const GroupCallView = ({
       .then((room) => {
         room.exit();
         setRoomDone(false);
-        console.log('Room exited');
+        console.log('exit the room');
       })
       .catch((error) => {
         console.log('error exit room', error);
@@ -123,8 +137,8 @@ const GroupCallView = ({
                   <ModeratorMode
                     person={person}
                     caller={caller}
-                    SendBirdCall={SendBirdCall}
-                    roomId={roomId}
+                    controlPlayers={controlPlayers}
+                    setControlPlayers={setControlPlayers}
                   />
                 ) : null}
 
@@ -152,25 +166,32 @@ const GroupCallView = ({
 
 export default GroupCallView;
 
-const ModeratorMode = ({ person, caller, SendBirdCall, roomId }) => {
+const ModeratorMode = ({
+  person,
+  caller,
+  controlPlayers,
+  setControlPlayers,
+}) => {
   // mute this player
-  const muteSomeone = (person) => {
-    SendBirdCall.fetchRoomById(roomId)
-      .then((room) => {
-        console.log('@ mute for room room', room, person);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  const controlPlayer = useCallback(
+    (person) => {
+      if (controlPlayers.some((p) => p === person.user.userId)) {
+        console.log('같은 인물을 추가 할 수 없습니다.');
+        return;
+      } else {
+        setControlPlayers((prev) => [...prev, person.user.userId]);
+      }
+    },
+    [controlPlayers, setControlPlayers],
+  );
 
   return (
     <>
       {caller !== person.user.userId ? (
         <div>
-          <button type="button" onClick={() => muteSomeone(person)}>
+          <button type="button" onClick={() => controlPlayer(person)}>
             <span role="img" aria-label="mute">
-              Mute this player 📴
+              give controll to this player 📴
             </span>
           </button>
         </div>
