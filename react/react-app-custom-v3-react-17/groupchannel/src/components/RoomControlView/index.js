@@ -40,7 +40,7 @@ const RoomControllerView = ({
         const enterParams = { audioEnalbed: true };
 
         // custom logic
-        const customItem = { key1: '왁왁' };
+        const customItem = { key1: '' };
         room
           .updateCustomItems(customItem)
           .then((res) => {

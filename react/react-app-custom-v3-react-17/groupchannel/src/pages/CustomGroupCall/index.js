@@ -20,8 +20,11 @@ const CustomGroupCall = () => {
 
   useEffect(() => {
     if (roomCtx) {
+      console.log('@ roomCtx is updated', roomCtx);
       setModerator(roomCtx.createdBy);
-      setModeratedPlayers(JSON.parse(roomCtx?.customItems?.key2));
+      if (roomCtx?.customItems?.key2) {
+        setModeratedPlayers(JSON.parse(roomCtx?.customItems?.key2));
+      }
     }
   }, [roomCtx]);
 

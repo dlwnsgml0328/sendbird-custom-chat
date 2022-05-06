@@ -38,14 +38,6 @@ const GroupCallView = ({
       SendBirdCall.fetchRoomById(roomId)
         .then((room) => {
           room.setAudioForLargeRoom(node);
-          // room.participants.forEach((p) => {
-          //   if (p.user.userId === caller) {
-          //     console.log('# can control', p.user.userId);
-          //     p.setMediaView(node);
-          //   } else {
-          //     console.log('# cant control', p.user.userId);
-          //   }
-          // });
         })
         .catch((err) => {
           console.error('error occured in fetchRoomById', err);
@@ -65,6 +57,18 @@ const GroupCallView = ({
         console.log('error exit room', error);
       });
   }, [SendBirdCall, setRoomDone, roomId]);
+
+  const clearRoom = useCallback(() => {
+    const customItem = { key1: '', key2: '' };
+    SendBirdCall.fetchRoomById(roomId)
+      .then((room) => {
+        room.updateCustomItems(customItem);
+        setControlPlayers([]);
+      })
+      .catch((err) => {
+        console.error('err occured in clear room', err);
+      });
+  }, [SendBirdCall, roomId]);
 
   const muteHandler = useCallback(
     (mute = false) => {
@@ -171,6 +175,12 @@ const GroupCallView = ({
         <button type="button" onClick={() => exitRoom()}>
           통화 종료
         </button>
+
+        {moderator === caller ? (
+          <button type="button" onClick={() => clearRoom()}>
+            커스텀 아이템 초기화
+          </button>
+        ) : null}
       </div>
     </Overlay>
   );
@@ -289,6 +299,10 @@ const Overlay = styled.div`
     left: 0%;
     right: 0%;
     text-align: center;
+
+    button {
+      margin-right: 5%;
+    }
   }
 
   .audio_main {
