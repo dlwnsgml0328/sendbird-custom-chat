@@ -128,13 +128,13 @@ const CustomChannelSDK = () => {
   // }, [ringing]);
 
   return (
-    <div>
+    <AppWrapper>
       <h1>CustomChannelSDK</h1>
       <p>{selectedChannel || ''}</p>
 
       {loginDone ? (
         <SendbirdProvider appId={APP_ID} userId={caller} nickname={caller}>
-          <div style={{ display: ' flex', height: '80vh', flexWrap: 'wrap' }}>
+          <div className="list_wrap" style={{}}>
             {/* 채널 리스트 (좌) */}
             <div style={{ flex: 1 }}>
               <ChannelList onChannelSelect={onChannelSelect} />
@@ -213,9 +213,28 @@ const CustomChannelSDK = () => {
           </OrderWrapper>
         </>
       )}
-    </div>
+    </AppWrapper>
   );
 };
+
+const AppWrapper = styled.div`
+  height: 85vh;
+
+  h1 {
+    margin-top: 0;
+  }
+
+  .list_wrap {
+    display: flex;
+    height: 100%;
+    flex-wrap: wrap;
+
+    @media only screen and (max-width: 480px) {
+      height: 60vh;
+      overflow-y: scroll;
+    }
+  }
+`;
 
 const CustomChannelHeader = styled.div`
   width: 100%;

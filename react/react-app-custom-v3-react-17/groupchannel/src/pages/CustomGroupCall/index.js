@@ -38,10 +38,6 @@ const CustomGroupCall = () => {
     <div>
       <h1>Custom Group Call</h1>
 
-      <span className="roomName">
-        your room: {roomCtx?.roomId || 'ca7ee077-9b8f-4424-9a38-4d55c2057368'}
-      </span>
-
       {loginDone ? (
         <>
           <h1>hello, {caller}</h1>

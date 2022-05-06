@@ -24,7 +24,7 @@ export const HeaderWrap = styled.ul`
   }
 
   @media screen and (max-width: 480px) {
-    height: 11vh;
+    height: 15vh;
     overflow-y: scroll;
 
     li {

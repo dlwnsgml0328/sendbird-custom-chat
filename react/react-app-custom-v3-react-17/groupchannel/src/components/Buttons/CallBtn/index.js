@@ -8,6 +8,7 @@ export const CallBtn = ({
   setCallerTime,
 }) => {
   const dial = useCallback(() => {
+    window.scrollTo(0, 0);
     SendBirdCall.dial(
       {
         userId: callee,
