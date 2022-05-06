@@ -37,9 +37,15 @@ const GroupCallView = ({
     (node) => {
       SendBirdCall.fetchRoomById(roomId)
         .then((room) => {
-          room.participants.forEach((p) => {
-            p.setMediaView(node);
-          });
+          room.setAudioForLargeRoom(node);
+          // room.participants.forEach((p) => {
+          //   if (p.user.userId === caller) {
+          //     console.log('# can control', p.user.userId);
+          //     p.setMediaView(node);
+          //   } else {
+          //     console.log('# cant control', p.user.userId);
+          //   }
+          // });
         })
         .catch((err) => {
           console.error('error occured in fetchRoomById', err);
@@ -144,7 +150,15 @@ const GroupCallView = ({
 
                 {/* 오디오 관련 라이브러리  */}
                 <audio
-                  ref={mediaViewRef}
+                  ref={(node) => {
+                    if (!node) {
+                      return;
+                    } else {
+                      if (caller === person.user.userId) {
+                        mediaViewRef(node);
+                      }
+                    }
+                  }}
                   autoPlay
                   controls
                   muted={caller === person.user.userId}
