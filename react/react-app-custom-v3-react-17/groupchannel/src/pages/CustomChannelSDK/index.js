@@ -134,7 +134,7 @@ const CustomChannelSDK = () => {
 
       {loginDone ? (
         <SendbirdProvider appId={APP_ID} userId={caller} nickname={caller}>
-          <div style={{ display: ' flex', height: '80vh' }}>
+          <div style={{ display: ' flex', height: '80vh', flexWrap: 'wrap' }}>
             {/* 채널 리스트 (좌) */}
             <div style={{ flex: 1 }}>
               <ChannelList onChannelSelect={onChannelSelect} />
@@ -184,13 +184,34 @@ const CustomChannelSDK = () => {
           )}
         </SendbirdProvider>
       ) : (
-        <LoginForm
-          caller={caller}
-          setCaller={setCaller}
-          setLoginDone={setLoginDone}
-          SendBirdCall={SendBirdCall}
-          isChat={true}
-        />
+        <>
+          <LoginForm
+            caller={caller}
+            setCaller={setCaller}
+            setLoginDone={setLoginDone}
+            SendBirdCall={SendBirdCall}
+            isChat={true}
+          />
+
+          <h2>채팅 기능 사용하기</h2>
+          <OrderWrapper>
+            <li>같은 페이지를 두개 엽니다</li>
+            <li>각각 다른 이름 (A/B) 을 입력합니다</li>
+            <li>한 계정 (A or B) 에서 해당 계정을 초대합니다</li>
+            <li>내부 기능을 사용합니다</li>
+            <ul>
+              <li>방에 인원이 2명일 경우, 전화하기 기능이 활성화됩니다</li>
+              <li>
+                전화하기 기능을 확인하고 싶은 경우, 휴대폰 (A) 과 브라우저 (B)
+                를 이용합니다
+              </li>
+              <li>
+                브라우저 (B) 에서 휴대폰 (A) 으로 전화하는 경우 가장 문제없이
+                동작합니다
+              </li>
+            </ul>
+          </OrderWrapper>
+        </>
       )}
     </div>
   );
@@ -211,6 +232,22 @@ const CustomChannelHeader = styled.div`
     border-radius: 16px;
 
     cursor: pointer;
+  }
+`;
+
+const OrderWrapper = styled.ol`
+  padding: 0px 30px;
+
+  li {
+    margin-bottom: 1%;
+  }
+
+  ul {
+    padding-left: 15px;
+  }
+
+  @media only screen and (max-width: 480px) {
+    font-size: 3vw;
   }
 `;
 

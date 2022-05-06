@@ -15,7 +15,7 @@ const CustomOpenChannel = () => {
         <SendbirdProvider appId={APP_ID} userId={USER_ID} nickname={NICKNAME}>
           <div className="open_channel_wrap" style={{ width: '80%' }}>
             <OpenChannel
-              channelUrl="sendbird_open_channel_5482_01b6ec103bd4aa9dc754cbaba6bbd12c30df7e14"
+              channelUrl="sendbird_open_channel_5498_606c443eaa04ca014809543fc8ca5b4d66b77ebd"
               renderHeader={() => (
                 <div>
                   <button type="button" onClick={() => setOnEdit(true)}>
@@ -28,7 +28,7 @@ const CustomOpenChannel = () => {
           {onEdit && (
             <div className="open_channel_edit_wrap">
               <OpenChannelSettings
-                channelUrl="sendbird_open_channel_5482_01b6ec103bd4aa9dc754cbaba6bbd12c30df7e14"
+                channelUrl="sendbird_open_channel_5498_606c443eaa04ca014809543fc8ca5b4d66b77ebd"
                 onCloseClick={() => setOnEdit(false)}
               />
             </div>
