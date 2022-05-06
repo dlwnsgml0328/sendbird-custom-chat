@@ -61,9 +61,9 @@ const RoomControllerView = ({
           });
 
         room.on('customItemsUpdated', (customItems, affectedKeys) => {
-          console.log('# customItemsUpdated');
-          console.log('# customItems: ', customItems);
-          console.log('# affectedKeys: ', affectedKeys);
+          // console.log('# customItemsUpdated');
+          // console.log('# customItems: ', customItems);
+          // console.log('# affectedKeys: ', affectedKeys);
           SendBirdCall.fetchRoomById(roomId)
             .then((room) => {
               console.log('customItemsUpdated room', room);
@@ -149,7 +149,7 @@ const RoomControllerView = ({
           <input
             type="text"
             placeholder="들어갈 방의 ID를 입력하세요"
-            value={roomId || 'ca7ee077-9b8f-4424-9a38-4d55c2057368'}
+            value={roomId}
             onChange={(e) => setRoomId(e.target.value)}
           />
         </div>
