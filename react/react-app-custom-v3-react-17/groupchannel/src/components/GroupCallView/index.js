@@ -154,9 +154,7 @@ const GroupCallView = ({
                     if (!node) {
                       return;
                     } else {
-                      if (caller === person.user.userId) {
-                        mediaViewRef(node);
-                      }
+                      mediaViewRef(node);
                     }
                   }}
                   autoPlay
