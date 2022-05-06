@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import Header from './components/Header';
+
 import Home from './pages/Home';
 import QuickStart from './pages/QuickStart';
 import CustomCreateChannel from './pages/CustomCreateChannel';
@@ -12,12 +14,11 @@ import CustomEditProfile from './pages/CustomEditProfile';
 import CustomOpenChannel from './pages/CustomOpenChannel';
 import CustomCall from './pages/CustomCall';
 import CustomDirectCall from './pages/CustomDirectCall';
-
-import Header from './components/Header';
 import CustomChatWithCall from './pages/CustomChatWithCall';
 import CustomDirectCall2 from './pages/CustomDirectCall_v2';
 import CustomChannelSDK from './pages/CustomChannelSDK';
 import CustomGroupCall from './pages/CustomGroupCall';
+import QuickStartContents from './pages/QuickStartContents';
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+      </Routes>
+      <Routes>
+        <Route path="/quick_start_contents" element={<QuickStartContents />} />
       </Routes>
       <Routes>
         <Route path="/quick_start" element={<QuickStart />} />
