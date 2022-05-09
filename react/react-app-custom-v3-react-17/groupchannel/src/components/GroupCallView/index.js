@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import ChatInCall from '../ChatInCall';
 
 const GroupCallView = ({
   roomId,
@@ -11,6 +12,31 @@ const GroupCallView = ({
 }) => {
   const [mute, setMute] = useState(false);
   const [controlPlayers, setControlPlayers] = useState([]);
+
+  // chat room modal state
+  const [isChat, setIsChat] = useState(false);
+  // created chat room info
+  const [info, setInfo] = useState();
+
+  useEffect(() => {
+    if (info) {
+      SendBirdCall.fetchRoomById(roomId)
+        .then((room) => {
+          const customItem = { key3: `${info.url}` };
+          room
+            .updateCustomItems(customItem)
+            .then((res) => {
+              console.log('update CustomItems', res);
+            })
+            .catch((err) => {
+              console.log('error in update CustomItems', err);
+            });
+        })
+        .catch((err) => {
+          console.log('fetchRoomById error', err);
+        });
+    }
+  }, [info, SendBirdCall, roomId]);
 
   useEffect(() => {
     if (controlPlayers.length > 0) {
@@ -181,7 +207,22 @@ const GroupCallView = ({
             커스텀 아이템 초기화
           </button>
         ) : null}
+
+        <button type="button" onClick={() => setIsChat((prev) => !prev)}>
+          채팅방 열기
+        </button>
       </div>
+
+      {isChat && (
+        <ChatInCall
+          caller={caller}
+          roomId={roomId}
+          info={info}
+          setIsChat={setIsChat}
+          setInfo={setInfo}
+          roomCtx={roomCtx}
+        />
+      )}
     </Overlay>
   );
 };

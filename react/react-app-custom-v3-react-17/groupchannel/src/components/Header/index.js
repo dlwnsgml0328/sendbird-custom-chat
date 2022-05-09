@@ -14,9 +14,9 @@ const Header = () => {
       {/* <li>
         <Link to="/quick_start">quick start</Link>
       </li> */}
-      {/* <li>
+      <li>
         <Link to="/create_channel">create channel</Link>
-      </li> */}
+      </li>
       {/* <li>
         <Link to="/channel_list">channel list</Link>
       </li>
