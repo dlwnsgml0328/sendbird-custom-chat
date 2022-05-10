@@ -8,15 +8,15 @@ const Header = () => {
       <li>
         <Link to="/">Home</Link>
       </li>
-      <li>
-        <Link to="/quick_start_contents">quick start for contents</Link>
-      </li>
       {/* <li>
-        <Link to="/quick_start">quick start</Link>
+        <Link to="/quick_start_contents">quick start for contents</Link>
       </li> */}
       <li>
-        <Link to="/create_channel">create channel</Link>
+        <Link to="/quick_start">quick start</Link>
       </li>
+      {/* <li>
+        <Link to="/create_channel">create channel</Link>
+      </li> */}
       {/* <li>
         <Link to="/channel_list">channel list</Link>
       </li>
@@ -26,9 +26,9 @@ const Header = () => {
       {/* <li>
         <Link to="/group_channel">group channel</Link>
       </li> */}
-      <li>
+      {/* <li>
         <Link to="/open_channel">open channel</Link>
-      </li>
+      </li> */}
       {/* <li>
         <Link to="/setting_channel">setting channel</Link>
       </li>

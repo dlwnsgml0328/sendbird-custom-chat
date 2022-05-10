@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import SendbirdProvider from '@sendbird/uikit-react/SendbirdProvider';
 import withSendBird from '@sendbird/uikit-react/withSendBird';
@@ -12,13 +12,13 @@ const ChatInCall = ({ setIsChat, caller, roomId, info, setInfo, roomCtx }) => {
   const [onCreate, setOnCreate] = useState(false);
   const [onSetting, setOnSetting] = useState(false);
 
-  useEffect(() => {
-    console.log('@ roomCtx update in group Chat in GroupCall', roomCtx);
-    console.log('roomCtx.customItems.key3', roomCtx.customItems.key3);
-  }, [roomCtx]);
+  // useEffect(() => {
+  //   console.log('@ roomCtx update in group Chat in GroupCall', roomCtx);
+  //   console.log('roomCtx.customItems.key3', roomCtx.customItems.key3);
+  // }, [roomCtx]);
 
+  // 방을 만들었을 때 해당 방으로 들어오기
   const onCreateChannel = (res) => {
-    console.log('res: ', res);
     if (res.url) {
       setInfo({
         url: res.url,
