@@ -9,8 +9,11 @@ const GroupCallView = ({
   roomCtx,
   caller,
   moderator,
+  isVideo,
 }) => {
   const [mute, setMute] = useState(false);
+  const [offVideo, setOffVideo] = useState(false);
+
   const [controlPlayers, setControlPlayers] = useState([]);
 
   const [isChat, setIsChat] = useState(false);
@@ -58,15 +61,25 @@ const GroupCallView = ({
 
   const mediaViewRef = useCallback(
     (node) => {
-      SendBirdCall.fetchRoomById(roomId)
-        .then((room) => {
-          room.setAudioForLargeRoom(node);
-        })
-        .catch((err) => {
-          console.error('error occured in fetchRoomById', err);
-        });
+      if (!isVideo) {
+        SendBirdCall.fetchRoomById(roomId)
+          .then((room) => {
+            room.setAudioForLargeRoom(node);
+          })
+          .catch((err) => {
+            console.error('error occured in fetchRoomById', err);
+          });
+      } else {
+        SendBirdCall.fetchRoomById(roomId)
+          .then((room) => {
+            room.localParticipant.setMediaView(node);
+          })
+          .catch((err) => {
+            console.error('error occured in setMediaView', err);
+          });
+      }
     },
-    [SendBirdCall, roomId],
+    [SendBirdCall, roomId, isVideo],
   );
 
   const exitRoom = useCallback(() => {
@@ -94,6 +107,27 @@ const GroupCallView = ({
           setMute(false);
         }
       });
+    },
+    [SendBirdCall, roomId],
+  );
+
+  const videoHandler = useCallback(
+    (video = false) => {
+      SendBirdCall.fetchRoomById(roomId)
+        .then((room) => {
+          if (!video) {
+            console.log('Off Video()');
+            room.localParticipant.stopVideo();
+            setOffVideo(true);
+          } else {
+            console.log('On Video()');
+            room.localParticipant.startVideo();
+            setOffVideo(false);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     [SendBirdCall, roomId],
   );
@@ -142,6 +176,26 @@ const GroupCallView = ({
                         </span>
                       </button>
                     )}
+
+                    {!offVideo ? (
+                      <button
+                        type="button"
+                        onClick={() => videoHandler(offVideo)}
+                      >
+                        <span role="img" aria-label="mute">
+                          Video Off
+                        </span>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => videoHandler(offVideo)}
+                      >
+                        <span role="img" aria-label="mute">
+                          Video On
+                        </span>
+                      </button>
+                    )}
                   </div>
                 ) : null}
 
@@ -153,18 +207,32 @@ const GroupCallView = ({
                     setControlPlayers={setControlPlayers}
                   />
                 )}
-
-                <audio
-                  ref={(node) => {
-                    if (!node) {
-                      return;
-                    } else {
-                      mediaViewRef(node);
-                    }
-                  }}
-                  autoPlay
-                  muted={caller === person.user.userId}
-                />
+                {isVideo ? (
+                  <video
+                    ref={(node) => {
+                      if (!node) {
+                        return;
+                      } else {
+                        mediaViewRef(node);
+                      }
+                    }}
+                    playsInline
+                    autoPlay
+                    muted={caller === person.user.userId}
+                  />
+                ) : (
+                  <audio
+                    ref={(node) => {
+                      if (!node) {
+                        return;
+                      } else {
+                        mediaViewRef(node);
+                      }
+                    }}
+                    autoPlay
+                    muted={caller === person.user.userId}
+                  />
+                )}
               </div>
             </div>
           </div>

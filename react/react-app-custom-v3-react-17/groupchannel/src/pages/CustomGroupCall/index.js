@@ -22,6 +22,12 @@ const CustomGroupCall = () => {
 
   const [errorMsg, setErrorMsg] = useState('');
 
+  const [isVideo, setIsVideo] = useState(false);
+
+  useEffect(() => {
+    console.log('isVideo', isVideo);
+  }, [isVideo]);
+
   useEffect(() => {
     if (errorMsg.length > 0) {
       setTimeout(() => {
@@ -49,6 +55,9 @@ const CustomGroupCall = () => {
           <h3 className="roomName">
             your room:{' '}
             {roomCtx?.roomId || 'ca7ee077-9b8f-4424-9a38-4d55c2057368'}
+            <br />
+            your videoRoom:{` `}
+            {roomCtx?.roomId || 'b07db2bd-95e5-4d0c-8b06-947efdd52c4a'}
           </h3>
 
           <h3>{errorMsg.length > 1 ? errorMsg : null}</h3>
@@ -69,6 +78,7 @@ const CustomGroupCall = () => {
               moderator={moderator}
               moderatedPlayers={moderatedPlayers}
               setModeratedPlayers={setModeratedPlayers}
+              isVideo={isVideo}
             />
           ) : (
             <RoomControllerView
@@ -78,6 +88,7 @@ const CustomGroupCall = () => {
               setRoomCtx={setRoomCtx}
               setRoomDone={setRoomDone}
               setErrorMsg={setErrorMsg}
+              setIsVideo={setIsVideo}
             />
           )}
         </>
