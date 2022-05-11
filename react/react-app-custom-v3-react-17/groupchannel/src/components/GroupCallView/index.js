@@ -13,9 +13,7 @@ const GroupCallView = ({
   const [mute, setMute] = useState(false);
   const [controlPlayers, setControlPlayers] = useState([]);
 
-  // chat room modal state
   const [isChat, setIsChat] = useState(false);
-  // created chat room info
   const [info, setInfo] = useState();
 
   useEffect(() => {
@@ -42,7 +40,6 @@ const GroupCallView = ({
     if (controlPlayers.length > 0) {
       SendBirdCall.fetchRoomById(roomId)
         .then((room) => {
-          // updateCustomItems
           const customItem = { key2: JSON.stringify(controlPlayers) };
           room
             .updateCustomItems(customItem)
@@ -84,33 +81,15 @@ const GroupCallView = ({
       });
   }, [SendBirdCall, setRoomDone, roomId]);
 
-  const clearRoom = useCallback(() => {
-    const customItem = { key1: '', key2: '' };
-    SendBirdCall.fetchRoomById(roomId)
-      .then((room) => {
-        room.updateCustomItems(customItem);
-        setControlPlayers([]);
-      })
-      .catch((err) => {
-        console.error('err occured in clear room', err);
-      });
-  }, [SendBirdCall, roomId]);
-
   const muteHandler = useCallback(
     (mute = false) => {
       SendBirdCall.fetchRoomById(roomId).then((room) => {
         if (!mute) {
-          console.log(
-            'muteMicrophone():',
-            room.localParticipant.muteMicrophone(),
-          );
+          console.log('muteMicrophone()');
           room.localParticipant.muteMicrophone();
           setMute(true);
         } else {
-          console.log(
-            'un muteMicrophone():',
-            room.localParticipant.unmuteMicrophone(),
-          );
+          console.log('un muteMicrophone');
           room.localParticipant.unmuteMicrophone();
           setMute(false);
         }
@@ -126,7 +105,7 @@ const GroupCallView = ({
           X
         </span>
       </div>
-      <h1>Group Call View !</h1>
+      <h3>Group Call View !</h3>
 
       <div className="person_list_wrap">
         {roomCtx?.participants.map((person) => (
@@ -135,12 +114,9 @@ const GroupCallView = ({
               <div>
                 {moderator === person.user.userId && (
                   <span>
-                    <b>Moderator </b>
+                    <b>Moderator - </b>
                   </span>
                 )}
-                <span>
-                  {caller === person.user.userId ? '본인: ' : '참여자: '}
-                </span>
                 <span>{person.user.userId}</span>
               </div>
               <div className="audio_main">
@@ -169,16 +145,15 @@ const GroupCallView = ({
                   </div>
                 ) : null}
 
-                {moderator === caller ? (
+                {moderator === caller && (
                   <ModeratorMode
                     person={person}
                     caller={caller}
                     controlPlayers={controlPlayers}
                     setControlPlayers={setControlPlayers}
                   />
-                ) : null}
+                )}
 
-                {/* 오디오 관련 라이브러리  */}
                 <audio
                   ref={(node) => {
                     if (!node) {
@@ -188,7 +163,6 @@ const GroupCallView = ({
                     }
                   }}
                   autoPlay
-                  controls
                   muted={caller === person.user.userId}
                 />
               </div>
@@ -201,12 +175,6 @@ const GroupCallView = ({
         <button type="button" onClick={() => exitRoom()}>
           통화 종료
         </button>
-
-        {moderator === caller ? (
-          <button type="button" onClick={() => clearRoom()}>
-            커스텀 아이템 초기화
-          </button>
-        ) : null}
 
         <button type="button" onClick={() => setIsChat((prev) => !prev)}>
           채팅방 열기
@@ -235,7 +203,7 @@ const ModeratorMode = ({
   controlPlayers,
   setControlPlayers,
 }) => {
-  // mute this player
+  // give controls to this player
   const controlPlayer = useCallback(
     (person) => {
       if (controlPlayers.some((p) => p === person.user.userId)) {
@@ -273,6 +241,10 @@ const Overlay = styled.div`
   background: #6211c8;
   color: #fff;
 
+  h3 {
+    margin-left: 1%;
+  }
+
   audio {
     width: 100%;
     margin-top: 40px;
@@ -309,12 +281,11 @@ const Overlay = styled.div`
     margin: 1%;
     border: 2px solid #fff;
     width: 45%;
-    height: 40vh;
+    max-width: 400px;
   }
 
   .person_info {
     padding: 5%;
-    height: 90%;
     text-align: center;
 
     svg {
@@ -349,5 +320,11 @@ const Overlay = styled.div`
   .audio_main {
     max-height: 274px;
     height: 100%;
+  }
+
+  @media screen and (max-width: 480px) {
+    .person_list_wrap {
+      margin-top: 5%;
+    }
   }
 `;

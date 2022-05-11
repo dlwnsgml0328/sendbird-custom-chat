@@ -8,7 +8,6 @@ const RoomControllerView = ({
   setRoomCtx,
   setRoomDone,
 }) => {
-  // 방 만들기
   const createRoom = useCallback(() => {
     // const customItem = { key1: 'value1' };
     const roomParams = {
@@ -30,7 +29,6 @@ const RoomControllerView = ({
       });
   }, [SendBirdCall, setRoomCtx]);
 
-  // 방 입장하기
   const enterRoom = useCallback(() => {
     SendBirdCall.fetchRoomById(roomId)
       .then((room) => {
@@ -39,7 +37,6 @@ const RoomControllerView = ({
 
         const enterParams = { audioEnalbed: true };
 
-        // custom logic
         const customItem = { key1: '' };
         room
           .updateCustomItems(customItem)
@@ -167,8 +164,9 @@ export default RoomControllerView;
 
 const RoomController = styled.div`
   display: flex;
-  height: 40vh;
+  height: 35vh;
   align-items: center;
+  margin-top: 5%;
 
   .room_container {
     border: 1px solid #000;
@@ -177,6 +175,9 @@ const RoomController = styled.div`
     text-align: center;
     width: 100%;
     min-width: 200px;
+    background-color: #6211c8;
+    color: #fff;
+    font-weight: 400;
 
     input {
       width: 180px;
@@ -185,11 +186,28 @@ const RoomController = styled.div`
     div {
       margin: 3% 0;
     }
+
+    button {
+      border: 2px solid #fff;
+      border-radius: 15px;
+      background-color: inherit;
+      color: #fff;
+      padding: 8px;
+      cursor: pointer;
+
+      transition: all 0.3s ease;
+
+      :hover {
+        background-color: #fff;
+        color: #6211c8;
+      }
+    }
   }
 
   @media screen and (max-width: 480px) {
     flex-wrap: wrap;
     font-size: 4vw;
+    margin-top: 0;
 
     .room_container {
       width: 100%;
@@ -201,17 +219,3 @@ const RoomController = styled.div`
     }
   }
 `;
-
-/* 
-Room event map
-
-  remoteParticipantEntered: { args: [RemoteParticipant]; };
-  remoteParticipantExited: { args: [RemoteParticipant]; };
-  remoteParticipantStreamStarted: { args: [RemoteParticipant]; };
-  remoteAudioSettingsChanged: { args: [RemoteParticipant]; };
-  remoteVideoSettingsChanged: { args: [RemoteParticipant]; };
-  customItemsUpdated: { args: [CustomItems, string[]] };
-  customItemsDeleted: { args: [CustomItems, string[]] };
-  deleted: {};
-  error: { args: [Error, Participant?] };
- */

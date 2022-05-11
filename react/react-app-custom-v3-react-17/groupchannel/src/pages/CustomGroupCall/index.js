@@ -5,6 +5,8 @@ import LoginForm from '../../components/LoginForm';
 import GroupCallView from '../../components/GroupCallView';
 import RoomControllerView from '../../components/RoomControlView';
 
+import styled from 'styled-components';
+
 const CustomGroupCall = () => {
   const [caller, setCaller] = useState('');
   const [loginDone, setLoginDone] = useState(false);
@@ -28,33 +30,24 @@ const CustomGroupCall = () => {
     }
   }, [roomCtx]);
 
-  useEffect(() => {
-    if (moderatedPlayers.length > 0) {
-      console.log('moderatedPlayers: ', moderatedPlayers);
-    }
-  }, [moderatedPlayers]);
-
   return (
-    <div>
-      <h1>Custom Group Call</h1>
+    <CustomCallWrapper done={roomDone}>
+      {loginDone ? (
+        <>
+          <h3>hello, {caller}</h3>
 
-      <span className="roomName">
-        your room: {roomCtx?.roomId || 'ca7ee077-9b8f-4424-9a38-4d55c2057368'}
-      </span>
+          <h3 className="roomName">
+            your room:{' '}
+            {roomCtx?.roomId || 'ca7ee077-9b8f-4424-9a38-4d55c2057368'}
+          </h3>
+        </>
+      ) : (
+        <h3>Custom Group Call</h3>
+      )}
 
       {loginDone ? (
         <>
-          <h1>hello, {caller}</h1>
-
-          <RoomControllerView
-            SendBirdCall={SendBirdCall}
-            roomId={roomId}
-            setRoomId={setRoomId}
-            setRoomCtx={setRoomCtx}
-            setRoomDone={setRoomDone}
-          />
-
-          {roomDone && (
+          {roomDone ? (
             <GroupCallView
               roomId={roomId}
               setRoomDone={setRoomDone}
@@ -64,6 +57,14 @@ const CustomGroupCall = () => {
               moderator={moderator}
               moderatedPlayers={moderatedPlayers}
               setModeratedPlayers={setModeratedPlayers}
+            />
+          ) : (
+            <RoomControllerView
+              SendBirdCall={SendBirdCall}
+              roomId={roomId}
+              setRoomId={setRoomId}
+              setRoomCtx={setRoomCtx}
+              setRoomDone={setRoomDone}
             />
           )}
         </>
@@ -75,8 +76,22 @@ const CustomGroupCall = () => {
           SendBirdCall={SendBirdCall}
         />
       )}
-    </div>
+    </CustomCallWrapper>
   );
+};
+const CustomCallWrapper = styled.div`
+  height: 100%;
+
+  overflow-y: ${(props) => (props.done ? 'hidden' : 'scroll')};
+
+  h3 {
+    margin: 0 1%;
+    margin-top: 1%;
+  }
+`;
+
+CustomGroupCall.defaultProps = {
+  roomDone: false,
 };
 
 export default CustomGroupCall;

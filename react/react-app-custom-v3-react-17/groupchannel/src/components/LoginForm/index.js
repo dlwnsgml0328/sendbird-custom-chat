@@ -2,21 +2,13 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { APP_ID } from '../../config/const';
 
-const LoginForm = ({
-  caller,
-  setCaller,
-  setLoginDone,
-  SendBirdCall,
-  isChat,
-}) => {
+const LoginForm = ({ caller, setCaller, setLoginDone, SendBirdCall }) => {
   const sendBirdAuth = useCallback(() => {
     SendBirdCall.init(APP_ID);
 
     SendBirdCall.authenticate({ userId: caller }, (result, error) => {
       if (error) {
         console.error('error authenticating', error);
-      } else {
-        console.log('success authenticating', result);
       }
     }).then(() => {
       SendBirdCall.connectWebSocket()
@@ -26,21 +18,14 @@ const LoginForm = ({
         })
         .catch((error) => console.log('connectWebSocket error', error));
     });
-
-    if (isChat) {
-    }
-  }, [caller, SendBirdCall, setLoginDone, isChat]);
+  }, [caller, SendBirdCall, setLoginDone]);
 
   const onSubmit = useCallback(
     (e) => {
-      if (SendBirdCall) {
-        e.preventDefault();
-        sendBirdAuth();
-      } else {
-        console.log('doesnt exist');
-      }
+      e.preventDefault();
+      sendBirdAuth();
     },
-    [SendBirdCall, sendBirdAuth],
+    [sendBirdAuth],
   );
 
   return (

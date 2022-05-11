@@ -12,12 +12,6 @@ const ChatInCall = ({ setIsChat, caller, roomId, info, setInfo, roomCtx }) => {
   const [onCreate, setOnCreate] = useState(false);
   const [onSetting, setOnSetting] = useState(false);
 
-  // useEffect(() => {
-  //   console.log('@ roomCtx update in group Chat in GroupCall', roomCtx);
-  //   console.log('roomCtx.customItems.key3', roomCtx.customItems.key3);
-  // }, [roomCtx]);
-
-  // 방을 만들었을 때 해당 방으로 들어오기
   const onCreateChannel = (res) => {
     if (res.url) {
       setInfo({

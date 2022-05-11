@@ -4,9 +4,13 @@ import Channel from '@sendbird/uikit-react/Channel';
 import ChannelList from '@sendbird/uikit-react/ChannelList';
 import ChannelSettings from '@sendbird/uikit-react/ChannelSettings';
 import withSendBird from '@sendbird/uikit-react/withSendBird';
+import useInput from '../../utils/useInput';
+import CustomInput from '../CustomInput';
 
 function CustomizedApp(props) {
   props && console.log('🔥 props changed: ', props);
+
+  const name = useInput('');
   // default props
   const {
     stores: { sdkStore, userStore },
@@ -70,40 +74,43 @@ function CustomizedApp(props) {
   const [currentChannelUrl, setCurrentChannelUrl] = useState('');
 
   return (
-    <div className="customized-app">
-      <div className="sendbird-app__wrap">
-        <div className="sendbird-app__channellist-wrap">
-          <ChannelList
-            onChannelSelect={(channel) => {
-              if (channel && channel.url) {
-                setCurrentChannelUrl(channel.url);
-              }
-            }}
-          />
+    <>
+      <CustomInput {...name} />
+      <div className="customized-app">
+        <div className="sendbird-app__wrap">
+          <div className="sendbird-app__channellist-wrap">
+            <ChannelList
+              onChannelSelect={(channel) => {
+                if (channel && channel.url) {
+                  setCurrentChannelUrl(channel.url);
+                }
+              }}
+            />
+          </div>
+          <div className="sendbird-app__conversation-wrap">
+            <Channel
+              channelUrl={currentChannelUrl}
+              onChatHeaderActionClick={() => {
+                setShowSettings(true);
+              }}
+            />
+          </div>
         </div>
-        <div className="sendbird-app__conversation-wrap">
-          <Channel
-            channelUrl={currentChannelUrl}
-            onChatHeaderActionClick={() => {
-              setShowSettings(true);
-            }}
-          />
-        </div>
+        {showSettings && (
+          <div
+            className="sendbird-app__settingspanel-wrap"
+            style={{ position: 'absolute', top: '52px', right: 0 }}
+          >
+            <ChannelSettings
+              channelUrl={currentChannelUrl}
+              onCloseClick={() => {
+                setShowSettings(false);
+              }}
+            />
+          </div>
+        )}
       </div>
-      {showSettings && (
-        <div
-          className="sendbird-app__settingspanel-wrap"
-          style={{ position: 'absolute', top: '52px', right: 0 }}
-        >
-          <ChannelSettings
-            channelUrl={currentChannelUrl}
-            onCloseClick={() => {
-              setShowSettings(false);
-            }}
-          />
-        </div>
-      )}
-    </div>
+    </>
   );
 }
 
