@@ -20,6 +20,16 @@ const CustomGroupCall = () => {
 
   const [moderatedPlayers, setModeratedPlayers] = useState([]);
 
+  const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() => {
+    if (errorMsg.length > 0) {
+      setTimeout(() => {
+        setErrorMsg('');
+      }, [3000]);
+    }
+  }, [errorMsg]);
+
   useEffect(() => {
     if (roomCtx) {
       console.log('@ roomCtx is updated', roomCtx);
@@ -40,6 +50,8 @@ const CustomGroupCall = () => {
             your room:{' '}
             {roomCtx?.roomId || 'ca7ee077-9b8f-4424-9a38-4d55c2057368'}
           </h3>
+
+          <h3>{errorMsg.length > 1 ? errorMsg : null}</h3>
         </>
       ) : (
         <h3>Custom Group Call</h3>
@@ -65,6 +77,7 @@ const CustomGroupCall = () => {
               setRoomId={setRoomId}
               setRoomCtx={setRoomCtx}
               setRoomDone={setRoomDone}
+              setErrorMsg={setErrorMsg}
             />
           )}
         </>

@@ -7,6 +7,7 @@ const RoomControllerView = ({
   setRoomId,
   setRoomCtx,
   setRoomDone,
+  setErrorMsg,
 }) => {
   const createRoom = useCallback(() => {
     // const customItem = { key1: 'value1' };
@@ -37,16 +38,6 @@ const RoomControllerView = ({
 
         const enterParams = { audioEnalbed: true };
 
-        const customItem = { key1: '' };
-        room
-          .updateCustomItems(customItem)
-          .then((res) => {
-            console.log('enter room customItem updated', res);
-          })
-          .catch((err) => {
-            console.log('err: ', err);
-          });
-
         room
           .enter(enterParams)
           .then(() => {
@@ -72,7 +63,7 @@ const RoomControllerView = ({
               });
             })
             .catch((err) => {
-              console.log('error', err);
+              console.log('error in customItemsUpdated room', err);
             });
         });
 
@@ -124,9 +115,9 @@ const RoomControllerView = ({
         });
       })
       .catch((error) => {
-        console.log('error fetching room', error);
+        setErrorMsg(error.message);
       });
-  }, [SendBirdCall, setRoomDone, roomId, setRoomCtx]);
+  }, [SendBirdCall, setRoomDone, roomId, setRoomCtx, setErrorMsg]);
 
   return (
     <RoomController>
@@ -144,7 +135,7 @@ const RoomControllerView = ({
         </div>
         <div>
           <input
-            type="text"
+            type="search"
             placeholder="들어갈 방의 ID를 입력하세요"
             value={roomId}
             onChange={(e) => setRoomId(e.target.value)}
