@@ -157,6 +157,7 @@ const RoomController = styled.div`
   display: flex;
   height: 35vh;
   align-items: center;
+  justify-content: center;
   margin-top: 5%;
 
   .room_container {
@@ -165,6 +166,7 @@ const RoomController = styled.div`
     margin: 32px;
     text-align: center;
     width: 100%;
+    max-width: 400px;
     min-width: 200px;
     background-color: #6211c8;
     color: #fff;
