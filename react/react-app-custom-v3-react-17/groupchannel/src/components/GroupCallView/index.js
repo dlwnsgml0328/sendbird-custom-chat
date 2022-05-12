@@ -147,7 +147,7 @@ const GroupCallView = ({
       <h3>Group Call View !</h3>
 
       <div className="person_list_wrap">
-        {roomCtx?.participants.map((person) => (
+        {roomCtx?.participants.map((person, idx) => (
           <div className="person" key={person.participantId}>
             <div className="person_info">
               <div>
@@ -233,7 +233,7 @@ const GroupCallView = ({
                         id={
                           caller === person.user.userId
                             ? 'local_video_element_id'
-                            : 'remote_video_element_id'
+                            : 'remote_video_element_id_' + idx
                         }
                         muted={caller === person.user.userId}
                       />

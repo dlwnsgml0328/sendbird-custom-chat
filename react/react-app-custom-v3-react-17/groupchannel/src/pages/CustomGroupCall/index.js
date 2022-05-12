@@ -25,10 +25,6 @@ const CustomGroupCall = () => {
   const [isVideo, setIsVideo] = useState(false);
 
   useEffect(() => {
-    console.log('isVideo', isVideo);
-  }, [isVideo]);
-
-  useEffect(() => {
     if (errorMsg.length > 0) {
       setTimeout(() => {
         setErrorMsg('');

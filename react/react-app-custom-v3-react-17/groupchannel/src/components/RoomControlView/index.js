@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 
 const RoomControllerView = ({
@@ -10,6 +10,7 @@ const RoomControllerView = ({
   setErrorMsg,
   setIsVideo,
 }) => {
+  const cnt = useRef(1);
   const createRoom = useCallback(
     (video = false) => {
       // const customItem = { key1: 'value1' };
@@ -77,8 +78,9 @@ const RoomControllerView = ({
             console.log('@remoteParticipantStreamStarted ', remoteParticipant);
 
             const remoteMediaview = document.querySelector(
-              '#remote_video_element_id',
+              `#remote_video_element_id_${cnt.current}`,
             );
+            cnt.current++;
             remoteParticipant.setMediaView(remoteMediaview);
           });
 
@@ -120,7 +122,7 @@ const RoomControllerView = ({
 
           room.on('remoteParticipantExited', (participant) => {
             console.log('@ participant exited', participant);
-
+            cnt.current--;
             SendBirdCall.fetchRoomById(roomId).then((room) => {
               setRoomCtx({
                 ...room,
