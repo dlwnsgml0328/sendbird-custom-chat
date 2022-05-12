@@ -159,12 +159,14 @@ const GroupCallView = ({
                 <span>{person.user.userId}</span>
               </div>
               <div className="audio_main">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 114.3 60.7"
-                >
-                  <path d="M113.05,59.18l-2-.41c-42.82-8.89-65-8.89-107.82,0l-2,.41v-51l1.32-.27C45.42-1,68.89-1,111.74,7.92l1.31.27Z" />
-                </svg>
+                {!isVideo && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 114.3 60.7"
+                  >
+                    <path d="M113.05,59.18l-2-.41c-42.82-8.89-65-8.89-107.82,0l-2,.41v-51l1.32-.27C45.42-1,68.89-1,111.74,7.92l1.31.27Z" />
+                  </svg>
+                )}
 
                 {caller === person.user.userId ? (
                   <div>
@@ -205,7 +207,13 @@ const GroupCallView = ({
                       </>
                     )}
                   </div>
-                ) : null}
+                ) : (
+                  <>
+                    {moderator !== caller && (
+                      <div style={{ height: '26px', width: '100%' }} />
+                    )}
+                  </>
+                )}
 
                 {moderator === caller && (
                   <ModeratorMode
