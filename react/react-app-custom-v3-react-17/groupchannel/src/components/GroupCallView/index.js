@@ -70,16 +70,21 @@ const GroupCallView = ({
             console.error('error occured in fetchRoomById', err);
           });
       } else {
+        console.log('is Video and ready to play mediaview');
         SendBirdCall.fetchRoomById(roomId)
           .then((room) => {
-            room.localParticipant.setMediaView(node);
+            room.participants.forEach((p) => {
+              if (p.user.userId === caller) {
+                room.localParticipant.setLocalMediaView(node);
+              }
+            });
           })
           .catch((err) => {
             console.error('error occured in setMediaView', err);
           });
       }
     },
-    [SendBirdCall, roomId, isVideo],
+    [SendBirdCall, roomId, isVideo, caller],
   );
 
   const exitRoom = useCallback(() => {
@@ -176,25 +181,28 @@ const GroupCallView = ({
                         </span>
                       </button>
                     )}
-
-                    {!offVideo ? (
-                      <button
-                        type="button"
-                        onClick={() => videoHandler(offVideo)}
-                      >
-                        <span role="img" aria-label="mute">
-                          Video Off
-                        </span>
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => videoHandler(offVideo)}
-                      >
-                        <span role="img" aria-label="mute">
-                          Video On
-                        </span>
-                      </button>
+                    {isVideo && (
+                      <>
+                        {!offVideo ? (
+                          <button
+                            type="button"
+                            onClick={() => videoHandler(offVideo)}
+                          >
+                            <span role="img" aria-label="mute">
+                              Video Off
+                            </span>
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => videoHandler(offVideo)}
+                          >
+                            <span role="img" aria-label="mute">
+                              Video On
+                            </span>
+                          </button>
+                        )}
+                      </>
                     )}
                   </div>
                 ) : null}
@@ -207,19 +215,30 @@ const GroupCallView = ({
                     setControlPlayers={setControlPlayers}
                   />
                 )}
+
                 {isVideo ? (
-                  <video
-                    ref={(node) => {
-                      if (!node) {
-                        return;
-                      } else {
-                        mediaViewRef(node);
-                      }
-                    }}
-                    playsInline
-                    autoPlay
-                    muted={caller === person.user.userId}
-                  />
+                  <>
+                    {caller ? (
+                      <video
+                        ref={(node) => {
+                          if (!node) {
+                            return;
+                          } else {
+                            if (caller === person.user.userId)
+                              mediaViewRef(node);
+                          }
+                        }}
+                        playsInline
+                        autoPlay
+                        id={
+                          caller === person.user.userId
+                            ? 'local_video_element_id'
+                            : 'remote_video_element_id'
+                        }
+                        muted={caller === person.user.userId}
+                      />
+                    ) : null}
+                  </>
                 ) : (
                   <audio
                     ref={(node) => {
@@ -331,6 +350,8 @@ const Overlay = styled.div`
     background-color: #000;
     border: 2px solid #000;
     width: 100%;
+    height: 100%;
+    max-height: 184px;
   }
 
   .exit {

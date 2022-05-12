@@ -45,7 +45,7 @@ const RoomControllerView = ({
     (video = false) => {
       SendBirdCall.fetchRoomById(roomId)
         .then((room) => {
-          console.log('fetch room successfully', room, room.participants);
+          console.log('fetch room successfully', room, room.localParticipant);
 
           if (video) {
             setIsVideo(true);
@@ -72,6 +72,16 @@ const RoomControllerView = ({
               console.log('failed to join room', error);
             });
 
+          // 원격의 상대가 stream을 시작할 때 이벤트를 감지
+          room.on('remoteParticipantStreamStarted', (remoteParticipant) => {
+            console.log('@remoteParticipantStreamStarted ', remoteParticipant);
+
+            const remoteMediaview = document.querySelector(
+              '#remote_video_element_id',
+            );
+            remoteParticipant.setMediaView(remoteMediaview);
+          });
+
           room.on('customItemsUpdated', (customItems, affectedKeys) => {
             // console.log('# customItemsUpdated');
             // console.log('# customItems: ', customItems);
@@ -83,7 +93,7 @@ const RoomControllerView = ({
                   ...room,
                   participants: room.participants,
                   remoteParticipants: room.remoteParticipants,
-                  localParticipants: room.localParticipants,
+                  localParticipant: room.localParticipant,
                 });
               })
               .catch((err) => {
@@ -100,7 +110,7 @@ const RoomControllerView = ({
                   ...room,
                   participants: room.participants,
                   remoteParticipants: room.remoteParticipants,
-                  localParticipants: room.localParticipants,
+                  localParticipant: room.localParticipant,
                 });
               })
               .catch((error) => {
@@ -116,7 +126,7 @@ const RoomControllerView = ({
                 ...room,
                 participants: room.participants,
                 remoteParticipants: room.remoteParticipants,
-                localParticipants: room.localParticipants,
+                localParticipant: room.localParticipant,
               });
               console.log('@ room updated by exit: ', room);
             });
