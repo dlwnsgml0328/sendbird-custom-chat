@@ -73,18 +73,14 @@ const GroupCallView = ({
         console.log('is Video and ready to play mediaview');
         SendBirdCall.fetchRoomById(roomId)
           .then((room) => {
-            room.participants.forEach((p) => {
-              if (p.user.userId === caller) {
-                room.localParticipant.setLocalMediaView(node);
-              }
-            });
+            room.localParticipant.setLocalMediaView(node);
           })
           .catch((err) => {
             console.error('error occured in setMediaView', err);
           });
       }
     },
-    [SendBirdCall, roomId, isVideo, caller],
+    [SendBirdCall, roomId, isVideo],
   );
 
   const exitRoom = useCallback(() => {

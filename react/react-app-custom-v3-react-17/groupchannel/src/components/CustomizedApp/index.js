@@ -4,14 +4,8 @@ import Channel from '@sendbird/uikit-react/Channel';
 import ChannelList from '@sendbird/uikit-react/ChannelList';
 import ChannelSettings from '@sendbird/uikit-react/ChannelSettings';
 import withSendBird from '@sendbird/uikit-react/withSendBird';
-import useInput from '../../utils/useInput';
-import CustomInput from '../CustomInput';
 
 function CustomizedApp(props) {
-  props && console.log('🔥 props changed: ', props);
-
-  const name = useInput('');
-  // default props
   const {
     stores: { sdkStore, userStore },
     config: {
@@ -75,7 +69,6 @@ function CustomizedApp(props) {
 
   return (
     <>
-      <CustomInput {...name} />
       <div className="customized-app">
         <div className="sendbird-app__wrap">
           <div className="sendbird-app__channellist-wrap">

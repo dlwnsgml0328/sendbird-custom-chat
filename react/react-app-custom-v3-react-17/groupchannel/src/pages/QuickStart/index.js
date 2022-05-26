@@ -12,7 +12,11 @@ export default function QuickStart() {
     return <p>Set APP_ID in const.js</p>;
   }
   return (
-    <SendBirdProvider appId={APP_ID} userId={USER_ID} nickname={NICKNAME}>
+    <SendBirdProvider
+      appId={'343EB7BC-628F-4AB5-93AC-17B7266A6CD1'}
+      userId={USER_ID}
+      nickname={NICKNAME}
+    >
       <CustomizedApp />
     </SendBirdProvider>
   );
